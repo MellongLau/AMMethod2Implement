@@ -14,6 +14,8 @@
 		FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BAF18FD70A300C5759C /* AMXcodeHelper.m */; };
 		FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */; };
 		FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */; };
+		FDBF0BB918FD845800C5759C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FDBF0BB718FD845800C5759C /* LICENSE */; };
+		FDBF0BBA18FD845800C5759C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FDBF0BB818FD845800C5759C /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMIDEHelper.m; sourceTree = "<group>"; };
 		FDBF0BB418FD7D9600C5759C /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
 		FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		FDBF0BB718FD845800C5759C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		FDBF0BB818FD845800C5759C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,8 @@
 		FDBF0B8F18FD6C5B00C5759C = {
 			isa = PBXGroup;
 			children = (
+				FDBF0BB718FD845800C5759C /* LICENSE */,
+				FDBF0BB818FD845800C5759C /* README.md */,
 				FDBF0B9F18FD6C5C00C5759C /* AMMethod2Implement */,
 				FDBF0B9A18FD6C5C00C5759C /* Frameworks */,
 				FDBF0B9918FD6C5C00C5759C /* Products */,
@@ -150,6 +156,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDBF0BBA18FD845800C5759C /* README.md in Resources */,
+				FDBF0BB918FD845800C5759C /* LICENSE in Resources */,
 				FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
