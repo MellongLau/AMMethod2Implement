@@ -12,6 +12,11 @@ A simple Xcode plugin to generate implement code for the selected method.
 * Relaunch Xcode and `AMMethod2Implement`.
 
 
+## Usage
+
+Use key Ctrl+A or go to menu "Edit" > "Implement Method".
+
+
 ## Support
 
 Developed and tested against Xcode 5.1 and 5.1.1.
