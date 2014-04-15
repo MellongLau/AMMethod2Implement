@@ -14,7 +14,7 @@ A simple Xcode plugin to generate implement code for the selected method.
 
 ## Usage
 
-Use key Ctrl+A or go to menu "Edit" > "Implement Method".
+Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
 
 
 ## Support
