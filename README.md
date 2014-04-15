@@ -24,7 +24,7 @@ Developed and tested against Xcode 5.1 and 5.1.1.
 
 ## License
 
-    MIT License
+MIT License
 
     Copyright (c) 2014 Mellong Lau
 
