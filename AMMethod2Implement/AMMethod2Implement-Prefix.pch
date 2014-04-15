@@ -6,4 +6,6 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+    #import "AMXcodeHelper.h"
+    #import "NSStringAdditions.h"
 #endif
