@@ -1,0 +1,290 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FDBF0B9C18FD6C5C00C5759C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */; };
+		FDBF0B9E18FD6C5C00C5759C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */; };
+		FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDBF0BA218FD6C5C00C5759C /* InfoPlist.strings */; };
+		FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BA618FD6C5C00C5759C /* AMMethod2Implement.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FDBF0B9818FD6C5C00C5759C /* AMMethod2Implement.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMMethod2Implement.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FDBF0BA118FD6C5C00C5759C /* AMMethod2Implement-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AMMethod2Implement-Info.plist"; sourceTree = "<group>"; };
+		FDBF0BA318FD6C5C00C5759C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FDBF0BA518FD6C5C00C5759C /* AMMethod2Implement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMMethod2Implement.h; sourceTree = "<group>"; };
+		FDBF0BA618FD6C5C00C5759C /* AMMethod2Implement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMMethod2Implement.m; sourceTree = "<group>"; };
+		FDBF0BA818FD6C5C00C5759C /* AMMethod2Implement-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AMMethod2Implement-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FDBF0B9518FD6C5C00C5759C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDBF0B9C18FD6C5C00C5759C /* AppKit.framework in Frameworks */,
+				FDBF0B9E18FD6C5C00C5759C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FDBF0B8F18FD6C5B00C5759C = {
+			isa = PBXGroup;
+			children = (
+				FDBF0B9F18FD6C5C00C5759C /* AMMethod2Implement */,
+				FDBF0B9A18FD6C5C00C5759C /* Frameworks */,
+				FDBF0B9918FD6C5C00C5759C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FDBF0B9918FD6C5C00C5759C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FDBF0B9818FD6C5C00C5759C /* AMMethod2Implement.xcplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FDBF0B9A18FD6C5C00C5759C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */,
+				FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FDBF0B9F18FD6C5C00C5759C /* AMMethod2Implement */ = {
+			isa = PBXGroup;
+			children = (
+				FDBF0BA518FD6C5C00C5759C /* AMMethod2Implement.h */,
+				FDBF0BA618FD6C5C00C5759C /* AMMethod2Implement.m */,
+				FDBF0BA018FD6C5C00C5759C /* Supporting Files */,
+			);
+			path = AMMethod2Implement;
+			sourceTree = "<group>";
+		};
+		FDBF0BA018FD6C5C00C5759C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FDBF0BA118FD6C5C00C5759C /* AMMethod2Implement-Info.plist */,
+				FDBF0BA218FD6C5C00C5759C /* InfoPlist.strings */,
+				FDBF0BA818FD6C5C00C5759C /* AMMethod2Implement-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FDBF0B9718FD6C5C00C5759C /* AMMethod2Implement */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDBF0BAB18FD6C5C00C5759C /* Build configuration list for PBXNativeTarget "AMMethod2Implement" */;
+			buildPhases = (
+				FDBF0B9418FD6C5C00C5759C /* Sources */,
+				FDBF0B9518FD6C5C00C5759C /* Frameworks */,
+				FDBF0B9618FD6C5C00C5759C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AMMethod2Implement;
+			productName = AMMethod2Implement;
+			productReference = FDBF0B9818FD6C5C00C5759C /* AMMethod2Implement.xcplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FDBF0B9018FD6C5B00C5759C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = "";
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Tendencystudio;
+			};
+			buildConfigurationList = FDBF0B9318FD6C5B00C5759C /* Build configuration list for PBXProject "AMMethod2Implement" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FDBF0B8F18FD6C5B00C5759C;
+			productRefGroup = FDBF0B9918FD6C5C00C5759C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FDBF0B9718FD6C5C00C5759C /* AMMethod2Implement */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FDBF0B9618FD6C5C00C5759C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FDBF0B9418FD6C5C00C5759C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FDBF0BA218FD6C5C00C5759C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FDBF0BA318FD6C5C00C5759C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FDBF0BA918FD6C5C00C5759C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FDBF0BAA18FD6C5C00C5759C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FDBF0BAC18FD6C5C00C5759C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(HOME)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AMMethod2Implement/AMMethod2Implement-Prefix.pch";
+				INFOPLIST_FILE = "AMMethod2Implement/AMMethod2Implement-Info.plist";
+				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xcplugin;
+			};
+			name = Debug;
+		};
+		FDBF0BAD18FD6C5C00C5759C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(HOME)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AMMethod2Implement/AMMethod2Implement-Prefix.pch";
+				INFOPLIST_FILE = "AMMethod2Implement/AMMethod2Implement-Info.plist";
+				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xcplugin;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FDBF0B9318FD6C5B00C5759C /* Build configuration list for PBXProject "AMMethod2Implement" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDBF0BA918FD6C5C00C5759C /* Debug */,
+				FDBF0BAA18FD6C5C00C5759C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDBF0BAB18FD6C5C00C5759C /* Build configuration list for PBXNativeTarget "AMMethod2Implement" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDBF0BAC18FD6C5C00C5759C /* Debug */,
+				FDBF0BAD18FD6C5C00C5759C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FDBF0B9018FD6C5B00C5759C /* Project object */;
+}
