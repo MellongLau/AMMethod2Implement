@@ -24,9 +24,9 @@ Developed and tested against Xcode 5.1 and 5.1.1.
 
 ## License
 
-The MIT License (MIT)
+    MIT License
 
-    Copyright (c) 2014 MellongLau
+    Copyright (c) 2014 Mellong Lau
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
