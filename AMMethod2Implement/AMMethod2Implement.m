@@ -38,10 +38,11 @@ static AMMethod2Implement *sharedPlugin;
         // Create menu items, initialize UI, etc.
 
         // Sample Menu Item:
-        NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"File"];
+        NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
         if (menuItem) {
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Do Action" action:@selector(doMenuAction) keyEquivalent:@""];
+            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Implement Method" action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
+            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
         }
@@ -50,10 +51,9 @@ static AMMethod2Implement *sharedPlugin;
 }
 
 // Sample Action, for menu item:
-- (void)doMenuAction
+- (void)doImplementMethodAction
 {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Hello, World" defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
-    [alert runModal];
+
 }
 
 - (void)dealloc
