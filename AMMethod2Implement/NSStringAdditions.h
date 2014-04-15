@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 Tendencystudio. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 
 @interface NSString (Additions)
