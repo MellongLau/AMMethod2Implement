@@ -40,6 +40,12 @@
     return fielPath;
 }
 
++ (NSString *)getCurrentClassName
+{
+    NSString *fileName = [[AMIDEHelper getCurrentEditFilePath] lastPathComponent];
+    return [fileName stringByDeletingPathExtension];
+}
+
 + (void)selectText:(NSString *)text
 {
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
@@ -54,6 +60,20 @@
     NSRange textRange = [textView.textStorage.string rangeOfString:text options:NSCaseInsensitiveSearch];
     [textView scrollRangeToVisible:textRange];
     [textView insertText:newText replacementRange:textRange];
+}
+
++ (NSString *)getCurrentSelectMethod
+{
+    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+    NSArray* selectedRanges = [textView selectedRanges];
+    if (selectedRanges.count >= 1) {
+        NSRange selectedRange = [[selectedRanges objectAtIndex:0] rangeValue];
+        NSString *text = textView.textStorage.string;
+        NSRange lineRange = [text lineRangeForRange:selectedRange];
+        NSString *line = [text substringWithRange:lineRange];
+        return line;
+    }
+    return nil;
 }
 
 @end

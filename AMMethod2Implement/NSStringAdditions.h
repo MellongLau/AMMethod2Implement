@@ -1,0 +1,16 @@
+//
+//  NSStringAdditions.h
+//  AMMethod2Implement
+//
+//  Created by Long on 14-4-15.
+//  Copyright (c) 2014年 Tendencystudio. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface NSString (Additions)
+
+
+- (BOOL)matches:(NSString *)regex;
+
+@end

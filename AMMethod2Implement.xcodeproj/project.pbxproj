@@ -13,6 +13,7 @@
 		FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BA618FD6C5C00C5759C /* AMMethod2Implement.m */; };
 		FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BAF18FD70A300C5759C /* AMXcodeHelper.m */; };
 		FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */; };
+		FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,8 @@
 		FDBF0BAF18FD70A300C5759C /* AMXcodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMXcodeHelper.m; sourceTree = "<group>"; };
 		FDBF0BB118FD71DB00C5759C /* AMIDEHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMIDEHelper.h; sourceTree = "<group>"; };
 		FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMIDEHelper.m; sourceTree = "<group>"; };
+		FDBF0BB418FD7D9600C5759C /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
+		FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,8 @@
 				FDBF0BAF18FD70A300C5759C /* AMXcodeHelper.m */,
 				FDBF0BB118FD71DB00C5759C /* AMIDEHelper.h */,
 				FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */,
+				FDBF0BB418FD7D9600C5759C /* NSStringAdditions.h */,
+				FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */,
 				FDBF0BA018FD6C5C00C5759C /* Supporting Files */,
 			);
 			path = AMMethod2Implement;
@@ -157,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */,
+				FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */,
 				FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */,
 				FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */,
 			);

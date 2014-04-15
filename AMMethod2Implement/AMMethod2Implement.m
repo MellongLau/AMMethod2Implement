@@ -7,12 +7,14 @@
 //
 
 #import "AMMethod2Implement.h"
+#import "AMIDEHelper.h"
 
 static AMMethod2Implement *sharedPlugin;
 
 @interface AMMethod2Implement()
 
 @property (nonatomic, strong) NSBundle *bundle;
+
 @end
 
 @implementation AMMethod2Implement
@@ -53,12 +55,32 @@ static AMMethod2Implement *sharedPlugin;
 // Sample Action, for menu item:
 - (void)doImplementMethodAction
 {
-
+    NSString *methodName = [AMIDEHelper getCurrentSelectMethod];
+    if ([methodName matches:@"^[-+].+"]) {
+        methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
+        NSLog(@"%@", methodName);
+        [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
+        
+        NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+        NSRange textRange = [textView.textStorage.string rangeOfString:methodName options:NSCaseInsensitiveSearch];
+        if (textRange.location == NSNotFound) {
+            NSString *className = [AMIDEHelper getCurrentClassName];
+            [AMIDEHelper replaceText:[NSString stringWithFormat:@"@implementation %@", className]
+                         withNewText:[NSString stringWithFormat:@"@implementation %@\n\n%@{\n    // Add method implement code here.\n\n}\n", className, methodName]];
+            [AMIDEHelper selectText:methodName];
+        }
+        [AMIDEHelper selectText:methodName];
+        
+        
+    }
+    
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+
 
 @end

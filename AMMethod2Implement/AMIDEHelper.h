@@ -13,8 +13,11 @@
 + (BOOL)openFile:(NSString *)filePath;
 + (NSString *)getCurrentEditFilePath;
 + (NSString *)getMFilePathOfCurrentEditFile;
++ (NSString *)getCurrentClassName;
 
 + (void)selectText:(NSString *)text;
 + (void)replaceText:(NSString *)text withNewText:(NSString *)newText;
+
++ (NSString *)getCurrentSelectMethod;
 
 @end
