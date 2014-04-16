@@ -30,6 +30,8 @@ In any case, relaunch Xcode to load it.
 
 Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
 
+![usageScreenshot.gif](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/usageScreenshot.gif)
+
 
 ## Support
 
