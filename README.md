@@ -8,7 +8,8 @@ A simple Xcode plugin to generate implement code for the selected method.
 
 You can
 
-1. Install from github.
+-Install from github.
+
 * Get the source code from github
 
     `$ git clone git@github.com:MellongLau/AMMethod2Implement.git`
@@ -18,7 +19,7 @@ You can
 
 or
 
-2. Install via [Alcatraz](http://alcatraz.io/)
+-Install via [Alcatraz](http://alcatraz.io/)
 
 In any case, relaunch Xcode to load it.
 
