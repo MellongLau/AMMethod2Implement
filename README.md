@@ -6,9 +6,9 @@ A simple Xcode plugin to generate implement code for the selected method.
 
 ## Install
 
-You can
+You can:
 
--Install from github.
+Install from github.
 
 * Get the source code from github
 
@@ -19,7 +19,7 @@ You can
 
 or
 
--Install via [Alcatraz](http://alcatraz.io/)
+Install via [Alcatraz](http://alcatraz.io/)
 
 In any case, relaunch Xcode to load it.
 
