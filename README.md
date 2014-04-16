@@ -6,12 +6,21 @@ A simple Xcode plugin to generate implement code for the selected method.
 
 ## Install
 
+You can
+
+1. Install from github.
 * Get the source code from github
 
     `$ git clone git@github.com:MellongLau/AMMethod2Implement.git`
     
 * Build the AMMethod2Implement target in the Xcode project and the plug-in will automatically be installed in `~/Library/Application Support/Developer/Shared/Xcode/Plug-ins`.
 * Relaunch Xcode.
+
+or
+
+2. Install via [Alcatraz](http://alcatraz.io/)
+
+In any case, relaunch Xcode to load it.
 
 
 ## Usage
