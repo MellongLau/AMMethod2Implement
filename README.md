@@ -21,7 +21,7 @@ or
 
 Install via [Alcatraz](http://alcatraz.io/)
 
-![AMMethodImplementInAlcatraz.png](https://github.com/MellongLau/AMMethod2Implement/blob/master/Screenshots/AMMethodImplementInAlcatraz.png)
+![AMMethodImplementInAlcatraz.png](https://raw.github.com/MellongLau/AMMethod2Implement/blob/master/Screenshots/AMMethodImplementInAlcatraz.png)
 
 In any case, relaunch Xcode to load it.
 
