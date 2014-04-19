@@ -43,7 +43,7 @@ static AMMethod2Implement *sharedPlugin;
         NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
         if (menuItem) {
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Implement Method" action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
+            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Implement Method (v1.1)" action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
             [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
@@ -66,7 +66,7 @@ static AMMethod2Implement *sharedPlugin;
         if (textRange.location == NSNotFound) {
             NSString *className = [AMIDEHelper getCurrentClassName];
             [AMIDEHelper replaceText:[NSString stringWithFormat:@"@implementation %@", className]
-                         withNewText:[NSString stringWithFormat:@"@implementation %@\n\n%@{\n    // Add method implement code here.\n\n}\n", className, methodName]];
+                         withNewText:[NSString stringWithFormat:@"@implementation %@\n\n%@{\n    \n\n}\n", className, methodName]];
             [AMIDEHelper selectText:methodName];
         }
         [AMIDEHelper selectText:methodName];
