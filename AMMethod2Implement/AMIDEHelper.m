@@ -33,11 +33,20 @@
 
 + (NSString *)getMFilePathOfCurrentEditFile
 {
-    NSString *fielPath = [AMIDEHelper getCurrentEditFilePath];
-    if ([fielPath rangeOfString:@".h"].length > 0) {
-        return [fielPath stringByReplacingOccurrencesOfString:@".h" withString:@".m"];
+    NSString *filePath = [AMIDEHelper getCurrentEditFilePath];
+    if ([filePath rangeOfString:@".h"].length > 0) {
+        NSString *mFilePath = [filePath stringByReplacingOccurrencesOfString:@".h" withString:@".m"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:mFilePath]) {
+            return mFilePath;
+        }
+        
+        mFilePath = [filePath stringByReplacingOccurrencesOfString:@".h" withString:@".mm"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:mFilePath]) {
+            return mFilePath;
+        }
+        
     }
-    return fielPath;
+    return filePath;
 }
 
 + (NSString *)getCurrentClassName
