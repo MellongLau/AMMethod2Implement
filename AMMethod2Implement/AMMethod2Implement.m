@@ -52,7 +52,7 @@ static AMMethod2Implement *sharedPlugin;
     return self;
 }
 
-// Sample Action, for menu item:
+// For menu item:
 - (void)doImplementMethodAction
 {
     NSString *methodName = [AMIDEHelper getCurrentSelectMethod];
@@ -65,13 +65,21 @@ static AMMethod2Implement *sharedPlugin;
         NSRange textRange = [textView.textStorage.string rangeOfString:methodName options:NSCaseInsensitiveSearch];
         if (textRange.location == NSNotFound) {
             NSString *className = [AMIDEHelper getCurrentClassName];
-            [AMIDEHelper replaceText:[NSString stringWithFormat:@"@implementation %@", className]
-                         withNewText:[NSString stringWithFormat:@"@implementation %@\n\n%@{\n    \n\n}\n", className, methodName]];
+            NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
+            NSString *endString = @"@end";
+            NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
+            NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
+            NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
+            
+            [textView scrollRangeToVisible:endRange];
+            
+            NSString *newString = [NSString stringWithFormat:@"\n%@{\n    \n}\n\n%@", methodName, endString];
+            [textView insertText:newString replacementRange:endRange];
+            
             [AMIDEHelper selectText:methodName];
         }
         [AMIDEHelper selectText:methodName];
-        
-        
+
     }
     
 }
