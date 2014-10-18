@@ -43,7 +43,7 @@ static AMMethod2Implement *sharedPlugin;
         NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
         if (menuItem) {
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Implement Method (v1.2)" action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
+            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Implement Method (v1.3)" action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
             [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
