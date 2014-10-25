@@ -55,33 +55,36 @@ static AMMethod2Implement *sharedPlugin;
 // For menu item:
 - (void)doImplementMethodAction
 {
-    NSString *methodName = [AMIDEHelper getCurrentSelectMethod];
-    if ([methodName matches:@"^[-+].+"]) {
-        methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
-        NSLog(@"%@", methodName);
-        [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
-        
-        NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
-        NSRange textRange = [textView.textStorage.string rangeOfString:methodName options:NSCaseInsensitiveSearch];
-        if (textRange.location == NSNotFound) {
-            NSString *className = [AMIDEHelper getCurrentClassName];
-            NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
-            NSString *endString = @"@end";
-            NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
-            NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
-            NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
-            
-            [textView scrollRangeToVisible:endRange];
-            
-            NSString *newString = [NSString stringWithFormat:@"\n%@{\n    \n}\n\n%@", methodName, endString];
-            [textView insertText:newString replacementRange:endRange];
-            
-            [AMIDEHelper selectText:methodName];
-        }
-        [AMIDEHelper selectText:methodName];
-
+    NSString *selectedMethodNames = [AMIDEHelper getCurrentSelectMethod];
+    if (selectedMethodNames){
+        NSArray *methodNames = [selectedMethodNames componentsSeparatedByString:@";"];
+        [methodNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+            NSString *methodName = [obj stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            if ([methodName matches:@"^[-+].+"]) {
+                NSLog(@"%@", methodName);
+                [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
+                
+                NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+                NSRange textRange = [textView.textStorage.string rangeOfString:methodName options:NSCaseInsensitiveSearch];
+                if (textRange.location == NSNotFound) {
+                    NSString *className = [AMIDEHelper getCurrentClassName];
+                    NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
+                    NSString *endString = @"@end";
+                    NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
+                    NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
+                    NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
+                    
+                    [textView scrollRangeToVisible:endRange];
+                    
+                    NSString *newString = [NSString stringWithFormat:@"\n%@{\n    \n}\n\n%@", methodName, endString];
+                    [textView insertText:newString replacementRange:endRange];
+                    
+                    [AMIDEHelper selectText:methodName];
+                }
+                [AMIDEHelper selectText:methodName];
+            }
+        }];
     }
-    
 }
 
 - (void)dealloc
