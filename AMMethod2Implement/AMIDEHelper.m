@@ -17,7 +17,8 @@
     NSLog(@"currentWindowController %@",[currentWindowController description]);
     if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
         NSLog(@"Open in current Xocde");
-        if ([[NSApp delegate] application:NSApp openFile:filePath]) {
+        id<NSApplicationDelegate> appDelegate = (id<NSApplicationDelegate>)[NSApp delegate];
+        if ([appDelegate application:NSApp openFile:filePath]) {
             return YES;
         }
     }
