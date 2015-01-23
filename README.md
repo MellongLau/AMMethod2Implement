@@ -1,9 +1,11 @@
 AMMethod2Implement
 ==================
 
-A simple Xcode plugin to generate implement code for the selected method.
+A simple Xcode plugin to generate implement code for the selected method and const string.
 
-Now support `extern NSString * const` implement.
+##New Feature:
+1. Support `extern NSString * const` implement.
+2. Support multiline method implement.
 
 ## Install
 
