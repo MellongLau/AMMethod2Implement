@@ -13,5 +13,7 @@
 
 
 - (BOOL)matches:(NSString *)regex;
+- (NSRange)firstMatch:(NSString *)regex;
+
 
 @end

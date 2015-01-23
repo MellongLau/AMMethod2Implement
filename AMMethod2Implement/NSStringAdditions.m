@@ -21,5 +21,15 @@
     return isMatch;
 }
 
+- (NSRange)firstMatch:(NSString *)regex
+{
+    
+    NSRegularExpression *regularExpression = [NSRegularExpression
+                                              regularExpressionWithPattern:regex
+                                              options:NSRegularExpressionAnchorsMatchLines
+                                              error:NULL];
+    NSTextCheckingResult *result = [regularExpression firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
+    return result.range;
+}
 
 @end

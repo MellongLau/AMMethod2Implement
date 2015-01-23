@@ -98,6 +98,9 @@ static AMMethod2Implement *sharedPlugin;
         NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
         NSString *endString = @"@end";
         NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
+        if (startRange.location == NSNotFound) {
+            startRange = NSMakeRange(0, textView.textStorage.string.length);
+        }
         NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
         NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
         
