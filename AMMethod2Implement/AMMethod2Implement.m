@@ -53,16 +53,15 @@ static AMMethod2Implement *sharedPlugin;
 
 - (NSString *)getBundleVersion
 {
-    return @"1.4";
+    return @"1.5";
 }
 
 // For menu item:
 - (void)doImplementMethodAction
 {
     NSString *selectString = [AMIDEHelper getCurrentSelectMethod];
-    NSLog(@"selectString：%@", selectString);
-    NSDictionary *implementMap = @{@"^\\s*[-+]\\s*\\(\\w+\\s*\\**\\)\\s*[^;]+;$":@"implementObjcMethodWithCurrentSelectString:",
-                                   @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);$":@"implementConstStringWithCurrentSelectString:"
+    NSDictionary *implementMap = @{@"^\\s*[-+]\\s*\\((\\w+)\\)\\s*.+":@"implementObjcMethodWithCurrentSelectString:",
+                                   @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);?$":@"implementConstStringWithCurrentSelectString:"
                                    };
 
     [implementMap enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -82,12 +81,7 @@ static AMMethod2Implement *sharedPlugin;
 {
     NSString *methodName = selectString;
 
-    NSArray *result = [methodName componentsSeparatedByString:@";"];
-    if (result.count == 0) {
-        return;
-    }
-
-    methodName = result[0];
+    methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
     NSLog(@"%@", methodName);
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     
