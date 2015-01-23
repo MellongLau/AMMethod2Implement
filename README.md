@@ -3,6 +3,7 @@ AMMethod2Implement
 
 A simple Xcode plugin to generate implement code for the selected method.
 
+Now support `extern NSString * const` implement.
 
 ## Install
 
@@ -35,7 +36,7 @@ Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
 
 ## Support
 
-Developed and tested against Xcode 5.1 and 5.1.1.
+Developed and tested against Xcode 6.1.1.
 
 
 ## License
