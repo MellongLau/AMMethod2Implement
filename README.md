@@ -6,6 +6,7 @@ A simple Xcode plugin to generate implement code for the selected method and con
 ##New Feature:
 1. Support `extern NSString * const` implement.
 2. Support multiline method implement.
+3. Support categories.
 
 ## Install
 
