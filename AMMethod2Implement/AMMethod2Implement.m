@@ -81,7 +81,13 @@ static AMMethod2Implement *sharedPlugin;
 {
     NSString *methodName = selectString;
 
-    methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
+    NSArray *result = [methodName componentsSeparatedByString:@";"];
+    if (result.count == 0) {
+        return;
+    }
+    
+    methodName = result[0];
+
     NSLog(@"%@", methodName);
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     
