@@ -64,6 +64,31 @@
     [textView scrollRangeToVisible:textRange];
 }
 
++ (void)selectTextWithRegex:(NSString *)regex highlightText:(NSString *)text
+{
+    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+    NSRegularExpression *regularExpression = [NSRegularExpression
+                                              regularExpressionWithPattern:regex
+                                              options:NSRegularExpressionAnchorsMatchLines
+                                              error:NULL];
+    
+    NSRange range = [regularExpression rangeOfFirstMatchInString:textView.textStorage.string
+                                                         options:0
+                                                           range:NSMakeRange(0, [textView.textStorage.string length])];
+    if (range.location == NSNotFound) {
+        return;
+    }
+    
+    NSString *string = [textView.textStorage.string substringWithRange:range];
+    NSLog(@"selectTextWithRegex: %@", string);
+    NSRange textRange = [string rangeOfString:text options:NSCaseInsensitiveSearch];
+    if (textRange.location != NSNotFound) {
+        range = NSMakeRange(range.location+textRange.location, textRange.length);
+    }
+    [textView setSelectedRange:range];
+    [textView scrollRangeToVisible:range];
+}
+
 + (void)replaceText:(NSString *)text withNewText:(NSString *)newText
 {
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];

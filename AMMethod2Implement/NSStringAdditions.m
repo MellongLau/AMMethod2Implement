@@ -12,9 +12,18 @@
 
 - (BOOL)matches:(NSString *)regex
 {
-    NSPredicate * pred      = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    BOOL isMatch            = [pred evaluateWithObject:self];
-    return isMatch;
+//    NSPredicate * pred      = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+//    BOOL isMatch            = [pred evaluateWithObject:self];
+//    return isMatch;
+    NSRegularExpression *regularExpression = [NSRegularExpression
+                                  regularExpressionWithPattern:regex
+                                  options:NSRegularExpressionAnchorsMatchLines
+                                  error:NULL];
+    
+    NSRange range   = [regularExpression rangeOfFirstMatchInString:self
+                                      options:0
+                                        range:NSMakeRange(0, [self length])];
+    return range.location != NSNotFound;
 }
 
 @end

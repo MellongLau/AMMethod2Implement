@@ -16,6 +16,7 @@
 + (NSString *)getCurrentClassName;
 
 + (void)selectText:(NSString *)text;
++ (void)selectTextWithRegex:(NSString *)regex highlightText:(NSString *)text;
 + (void)replaceText:(NSString *)text withNewText:(NSString *)newText;
 
 + (NSString *)getCurrentSelectMethod;
