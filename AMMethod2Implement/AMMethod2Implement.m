@@ -60,8 +60,8 @@ static AMMethod2Implement *sharedPlugin;
 - (void)doImplementMethodAction
 {
     NSString *selectString = [AMIDEHelper getCurrentSelectMethod];
-    NSDictionary *implementMap = @{@"^\\s*[-+]\\s*\\((\\w+)\\)\\s*.+":@"implementObjcMethodWithCurrentSelectString:",
-                                   @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);?$":@"implementConstStringWithCurrentSelectString:"
+    NSDictionary *implementMap = @{@"^\\s*[-+]\\s*\\(\\w+\\s*\\**\\)\\s*[^;]+;$":@"implementObjcMethodWithCurrentSelectString:",
+                                   @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);$":@"implementConstStringWithCurrentSelectString:"
                                    };
 
     [implementMap enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
