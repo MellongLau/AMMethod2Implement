@@ -53,7 +53,7 @@ static AMMethod2Implement *sharedPlugin;
 
 - (NSString *)getBundleVersion
 {
-    return @"1.5";
+    return @"1.6";
 }
 
 // For menu item:
