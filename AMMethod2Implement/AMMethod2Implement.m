@@ -116,44 +116,55 @@ static AMMethod2Implement *sharedPlugin;
 - (void)implementConstStringWithCurrentSelectString:(NSString *)selectString
 {
     NSString *methodName = selectString;
-    methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
+//    methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
     NSRegularExpression *regex = [NSRegularExpression
                                   regularExpressionWithPattern:@"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);?$"
-                                  options:0
+                                  options:NSRegularExpressionAnchorsMatchLines
                                   error:NULL];
 
-    NSArray *array   = [regex matchesInString:methodName
-                                               options:0
-                                                 range:NSMakeRange(0, [methodName length])];
-    if (array.count == 0) {
-        return;
-    }
-
-    NSTextCheckingResult *results = array[0];
-    if (results.numberOfRanges == 0) {
-        return;
-    }
-
-    NSString *result = [methodName substringWithRange:[results rangeAtIndex:results.numberOfRanges-1]];
-    NSLog(@"result: %@", result);
+    NSString *regexString = @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$";
+    
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
-    NSString *regexString = [NSString stringWithFormat:@"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$", result];
-    if (![textView.textStorage.string matches:regexString]) {
-        NSString *className = [AMIDEHelper getCurrentClassName];
-        NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
-        NSString *endString = @"@end";
-        NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
-        NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
-        NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
-        
-        [textView scrollRangeToVisible:endRange];
-        NSString *stringResult = [NSString stringWithFormat:@"NSString * const %@ = @\"<#value#>\";", result];
+    
+    NSString *className = [AMIDEHelper getCurrentClassName];
+    NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
+    NSString *endString = @"@end";
+    NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
+    NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
+    NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
+    [textView scrollRangeToVisible:endRange];
+    __block NSMutableString *stringResult = [NSMutableString string];
+    NSLog(@"methodName---->>>>> %@",methodName);
+    
+    __block NSString *firstResult = @"";
+    [regex enumerateMatchesInString:methodName
+                            options:0
+                              range:NSMakeRange(0, methodName.length)
+                         usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop) {
+
+                             NSString *result = [methodName substringWithRange:[results rangeAtIndex:results.numberOfRanges-1]];
+                             NSLog(@"??---->>>>> %@",result);
+                             NSString *matchRegex = [NSString stringWithFormat:regexString, result];
+                            if (![textView.textStorage.string matches:matchRegex]) {
+                              [stringResult appendFormat:@"NSString * const %@ = @\"<#value#>\";\n", result];
+                              
+                            }
+                             if (firstResult.length == 0) {
+                                 firstResult = result;
+                             }
+
+                             
+                         }];
+    if (stringResult.length > 0) {
         NSString *newString = [NSString stringWithFormat:@"%@\n\n@end", stringResult];
         [textView insertText:newString replacementRange:endRange];
+        
     }
-    [AMIDEHelper selectTextWithRegex:regexString highlightText:@"<#value#>"];
+    NSString *matchRegex = [NSString stringWithFormat:regexString, firstResult];
+    [AMIDEHelper selectTextWithRegex:matchRegex highlightText:@"<#value#>"];
+    
 }
 
 - (void)dealloc
