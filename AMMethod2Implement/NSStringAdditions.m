@@ -21,6 +21,18 @@
     return isMatch;
 }
 
+- (NSInteger)getMatchIndexWithRegexList:(NSArray *)regexList
+{
+    int i = 0;
+    for (NSString *regexItem in regexList) {
+        if ([self matches:regexItem]) {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
 - (NSRange)firstMatch:(NSString *)regex
 {
     
@@ -31,5 +43,6 @@
     NSTextCheckingResult *result = [regularExpression firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
     return result.range;
 }
+
 
 @end

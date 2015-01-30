@@ -14,6 +14,6 @@
 
 - (BOOL)matches:(NSString *)regex;
 - (NSRange)firstMatch:(NSString *)regex;
-
+- (NSInteger)getMatchIndexWithRegexList:(NSArray *)regexList;
 
 @end

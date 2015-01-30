@@ -47,6 +47,9 @@ static AMMethod2Implement *sharedPlugin;
             [actionMenuItem setTarget:self];
             [[menuItem submenu] addItem:actionMenuItem];
         }
+        
+        [self initData];
+        
     }
     return self;
 }
@@ -56,25 +59,83 @@ static AMMethod2Implement *sharedPlugin;
     return @"1.7";
 }
 
+static NSArray *implementMap;
+static NSArray *declareMap;
+static NSArray *implementContent;
+
+- (void)initData
+{
+    declareMap =    @[
+                      @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)$",
+                      @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$"
+                      ];
+    implementMap = @[
+                     @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)",
+                     @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$"
+                     ];
+    
+    implementContent = @[
+                     @"\n\n%@{\n\t<#value#>\n}\n",
+                     @"\n\nNSString * const %@ = @\"<#value#>\";\n"
+                     ];
+}
+
+
 // For menu item:
 - (void)doImplementMethodAction
 {
     NSString *selectString = [AMIDEHelper getCurrentSelectMethod];
-    NSDictionary *implementMap = @{@"^\\s*[-+]\\s*\\(\\w+\\s*\\**\\)\\s*[^;]+;$":@"implementObjcMethodWithCurrentSelectString:",
-                                   @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);$":@"implementConstStringWithCurrentSelectString:"
-                                   };
 
-    [implementMap enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if ([selectString matches:key])
-        {
-            SEL selector = NSSelectorFromString(obj);
-            if ([self respondsToSelector:selector]) {
-                [self performSelector:selector withObject:selectString];
-            }
-        }
-    }];
-
+    NSArray *result = [AMIDEHelper getCurrentClassNameByCurrentSelectedRange];
     
+    [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
+    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+    NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:result mFileText:textView.textStorage.string];
+    NSRange range = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+    [textView scrollRangeToVisible:range];
+
+    BOOL shouldSelect = YES;
+    NSArray *methodList = [selectString componentsSeparatedByString:@";"];
+    for (NSString *methodItem in methodList) {
+        if (methodItem.length == 0) {
+            continue;
+        }
+
+        NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:declareMap];
+        if (matchIndex != -1)
+        {
+
+            NSRange textRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:result mFileText:textView.textStorage.string];
+//            NSRegularExpression *regularExpression = [NSRegularExpression
+//                                                      regularExpressionWithPattern:implementMap[matchIndex]
+//                                                      options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
+//                                                      error:NULL];
+//            NSTextCheckingResult *result = [regularExpression firstMatchInString:textView.textStorage.string options:0 range:textRange];
+//            if (result.range.location != NSNotFound) {
+//                if (shouldSelect) {
+//                    [AMIDEHelper selectTextWithRegex:implementMap[matchIndex] highlightText:@"<#value#>"];
+//                    shouldSelect = NO;
+//                }
+//
+//                
+//                return;
+//            }
+
+            NSRegularExpression *regex = [NSRegularExpression
+                                          regularExpressionWithPattern:declareMap[matchIndex]
+                                          options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
+                                          error:NULL];
+            NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
+            if (textCheckingResult.range.location != NSNotFound) {
+                NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
+                NSString *newString = [NSString stringWithFormat:implementContent[matchIndex], result];
+                NSLog(@"Result:%@", result);
+                [textView insertText:newString replacementRange:range];
+            }
+
+        }
+    }
+
 }
 
 - (void)implementObjcMethodWithCurrentSelectString:(NSString *)selectString
@@ -113,15 +174,14 @@ static AMMethod2Implement *sharedPlugin;
     [AMIDEHelper selectText:methodName];
 }
 
-- (void)implementConstStringWithCurrentSelectString:(NSString *)selectString
+- (void)implementConstStringWithCurrentSelectString:(NSString *)selectString index:(NSInteger)index
 {
     NSString *methodName = selectString;
-//    methodName = [methodName stringByReplacingOccurrencesOfString:@";" withString:@""];
     NSRegularExpression *regex = [NSRegularExpression
-                                  regularExpressionWithPattern:@"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+);?$"
+                                  regularExpressionWithPattern:implementMap[index]
                                   options:NSRegularExpressionAnchorsMatchLines
                                   error:NULL];
-
+    
     NSString *regexString = @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$";
     
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
@@ -136,7 +196,6 @@ static AMMethod2Implement *sharedPlugin;
     NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
     [textView scrollRangeToVisible:endRange];
     __block NSMutableString *stringResult = [NSMutableString string];
-    NSLog(@"methodName---->>>>> %@",methodName);
     
     __block NSString *firstResult = @"";
     [regex enumerateMatchesInString:methodName
@@ -145,7 +204,7 @@ static AMMethod2Implement *sharedPlugin;
                          usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop) {
 
                              NSString *result = [methodName substringWithRange:[results rangeAtIndex:results.numberOfRanges-1]];
-                             NSLog(@"??---->>>>> %@",result);
+                             NSLog(@"Const string name is: %@",result);
                              NSString *matchRegex = [NSString stringWithFormat:regexString, result];
                             if (![textView.textStorage.string matches:matchRegex]) {
                               [stringResult appendFormat:@"NSString * const %@ = @\"<#value#>\";\n", result];
