@@ -121,7 +121,7 @@
         NSRange lineRange = [text lineRangeForRange:selectedRange];
         ;
         NSRegularExpression *regex = [NSRegularExpression
-                                      regularExpressionWithPattern:@"(?<=@interface)\\s*(\\w+)\\s*(\\(?\\w*\\)?)"
+                                      regularExpressionWithPattern:@"(?<=@interface)\\s+(\\w+)\\s*\\(?(\\w*)\\)?"
                                       options:0
                                       error:NULL];
         NSArray *results = [regex matchesInString:textView.textStorage.string options:0 range:NSMakeRange(0, lineRange.location)];
@@ -132,14 +132,46 @@
                 NSMutableArray *array = [NSMutableArray array];
                 for (int i = 0; i < textCheckingResult.numberOfRanges; i++) {
                     NSString *item = [text substringWithRange:[textCheckingResult rangeAtIndex:i]];
-                    [array addObject:item];
-                    NSLog(@"%@", item);
+                    if (item.length > 0) {
+                        [array addObject:item];
+                        NSLog(@"%@", item);
+                    }
                 }
                 return array;
             }
         }
     }
     return nil;
+}
+
++ (NSRange)getInsertRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText
+{
+    
+    if (classNameItemList.count > 1) {
+        
+        NSString *regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@.+?@end", classNameItemList[1]];
+        if (classNameItemList.count == 3) {
+            regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)", classNameItemList[1], classNameItemList[2]];
+        }
+        NSLog(@"%@",regexPattern);
+        
+        NSRegularExpression *regex = [NSRegularExpression
+                                      regularExpressionWithPattern:regexPattern
+                                      options:NSRegularExpressionDotMatchesLineSeparators
+                                      error:NULL];
+        
+        NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:mFileText
+                                                                     options:0
+                                                                       range:NSMakeRange(0, mFileText.length)];
+
+//        NSLog(@"%@", [mFileText substringWithRange:textCheckingResult.range]);
+        if (textCheckingResult.range.location != NSNotFound) {
+            return NSMakeRange(textCheckingResult.range.location+textCheckingResult.range.length, 1);
+        }
+
+    }
+
+    return NSMakeRange(NSNotFound, 0);
 }
 
 @end

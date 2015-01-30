@@ -21,5 +21,7 @@
 
 + (NSString *)getCurrentSelectMethod;
 + (NSArray *)getCurrentClassNameByCurrentSelectedRange;
++ (NSRange)getInsertRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText;
+
 
 @end
