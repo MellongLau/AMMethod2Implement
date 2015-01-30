@@ -144,9 +144,8 @@
     return nil;
 }
 
-+ (NSRange)getInsertRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText
++ (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText
 {
-    
     if (classNameItemList.count > 1) {
         
         NSString *regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@.+?@end", classNameItemList[1]];
@@ -163,12 +162,20 @@
         NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:mFileText
                                                                      options:0
                                                                        range:NSMakeRange(0, mFileText.length)];
-
-//        NSLog(@"%@", [mFileText substringWithRange:textCheckingResult.range]);
+        
+        //        NSLog(@"%@", [mFileText substringWithRange:textCheckingResult.range]);
         if (textCheckingResult.range.location != NSNotFound) {
-            return NSMakeRange(textCheckingResult.range.location+textCheckingResult.range.length, 1);
+            return textCheckingResult.range;
         }
+        
+    }
+    return NSMakeRange(NSNotFound, 0);
+}
 
++ (NSRange)getInsertRangeWithClassImplementContentRange:(NSRange)range
+{
+    if (range.location != NSNotFound) {
+        return NSMakeRange(range.location+range.length, 1);
     }
 
     return NSMakeRange(NSNotFound, 0);
