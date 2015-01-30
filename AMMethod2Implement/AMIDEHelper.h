@@ -20,5 +20,6 @@
 + (void)replaceText:(NSString *)text withNewText:(NSString *)newText;
 
 + (NSString *)getCurrentSelectMethod;
++ (NSArray *)getCurrentClassNameByCurrentSelectedRange;
 
 @end

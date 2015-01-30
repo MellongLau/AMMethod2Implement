@@ -111,4 +111,35 @@
     return nil;
 }
 
++ (NSArray *)getCurrentClassNameByCurrentSelectedRange
+{
+    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+    NSArray* selectedRanges = [textView selectedRanges];
+    if (selectedRanges.count >= 1) {
+        NSRange selectedRange = [[selectedRanges objectAtIndex:0] rangeValue];
+        NSString *text = textView.textStorage.string;
+        NSRange lineRange = [text lineRangeForRange:selectedRange];
+        ;
+        NSRegularExpression *regex = [NSRegularExpression
+                                      regularExpressionWithPattern:@"(?<=@interface)\\s*(\\w+)\\s*(\\(?\\w*\\)?)"
+                                      options:0
+                                      error:NULL];
+        NSArray *results = [regex matchesInString:textView.textStorage.string options:0 range:NSMakeRange(0, lineRange.location)];
+        if (results.count > 0) {
+            NSTextCheckingResult *textCheckingResult = results[results.count - 1];
+            NSRange classNameRange = textCheckingResult.range;
+            if (classNameRange.location != NSNotFound) {
+                NSMutableArray *array = [NSMutableArray array];
+                for (int i = 0; i < textCheckingResult.numberOfRanges; i++) {
+                    NSString *item = [text substringWithRange:[textCheckingResult rangeAtIndex:i]];
+                    [array addObject:item];
+                    NSLog(@"%@", item);
+                }
+                return array;
+            }
+        }
+    }
+    return nil;
+}
+
 @end
