@@ -63,6 +63,9 @@ static NSArray *implementMap;
 static NSArray *declareMap;
 static NSArray *implementContent;
 
+
+static NSDictionary *dataMap;
+
 - (void)initData
 {
     declareMap =    @[
@@ -70,12 +73,12 @@ static NSArray *implementContent;
                       @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$"
                       ];
     implementMap = @[
-                     @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)",
+                     @"^(%@)$",
                      @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$"
                      ];
     
     implementContent = @[
-                     @"\n\n%@{\n\t<#value#>\n}",
+                     @"\n\n%@ {\n\t\n}",
                      @"\n\nNSString * const %@ = @\"<#value#>\";"
                      ];
 }
@@ -94,7 +97,7 @@ static NSArray *implementContent;
     NSRange range = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
     [textView scrollRangeToVisible:range];
 
-    BOOL shouldSelect = YES;
+    NSDictionary *selectTextDictionary = nil;
     NSArray *methodList = [selectString componentsSeparatedByString:@";"];
     NSMutableString *stringResult = [NSMutableString string];
     for (NSString *methodItem in methodList) {
@@ -106,22 +109,6 @@ static NSArray *implementContent;
         if (matchIndex != -1)
         {
 
-            NSRange textRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:result mFileText:textView.textStorage.string];
-//            NSRegularExpression *regularExpression = [NSRegularExpression
-//                                                      regularExpressionWithPattern:implementMap[matchIndex]
-//                                                      options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
-//                                                      error:NULL];
-//            NSTextCheckingResult *result = [regularExpression firstMatchInString:textView.textStorage.string options:0 range:textRange];
-//            if (result.range.location != NSNotFound) {
-//                if (shouldSelect) {
-//                    [AMIDEHelper selectTextWithRegex:implementMap[matchIndex] highlightText:@"<#value#>"];
-//                    shouldSelect = NO;
-//                }
-//
-//                
-//                return;
-//            }
-
             NSRegularExpression *regex = [NSRegularExpression
                                           regularExpressionWithPattern:declareMap[matchIndex]
                                           options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
@@ -129,101 +116,54 @@ static NSArray *implementContent;
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
-                [stringResult appendFormat:implementContent[matchIndex], result];
-                NSLog(@"Result:%@", result);
+                //
+                NSRange textRange = NSMakeRange(NSNotFound, 0);
+                if (matchIndex == 0) {
+                    textRange = [textView.textStorage.string rangeOfString:methodItem options:NSCaseInsensitiveSearch];
+                    
+
+                } else if (matchIndex == 1) {
+                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
+                    NSLog(@"matchRegex:%@", matchRegex);
+                    NSRegularExpression *regularExpression = [NSRegularExpression
+                                                              regularExpressionWithPattern:matchRegex
+                                                              options:NSRegularExpressionAnchorsMatchLines
+                                                              error:NULL];
+                    BOOL isMatch = [regularExpression numberOfMatchesInString:textView.textStorage.string options:0 range:contentRange] > 0;
+                    if (isMatch) {
+                        textRange = NSMakeRange(0, 1);
+                    }
+                }
+                
+                if (textRange.location != NSNotFound) {
+                    if (selectTextDictionary == nil) {
+                        selectTextDictionary = @{@"type":@(matchIndex),
+                                                 @"firstSelectMethod":matchIndex==0?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                    }
+                }else {
+                
+                    [stringResult appendFormat:implementContent[matchIndex], result];
+                    NSLog(@"Result:%@", result);
+                }
                 
             }
+            
+
+            
 
         }
     }
-    [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
-}
-
-- (void)implementObjcMethodWithCurrentSelectString:(NSString *)selectString
-{
-    NSString *methodName = selectString;
-
-    NSArray *result = [methodName componentsSeparatedByString:@";"];
-    if (result.count == 0) {
-        return;
-    }
-    
-    methodName = result[0];
-
-    NSLog(@"%@", methodName);
-    [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
-    
-    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
-    NSRange textRange = [textView.textStorage.string rangeOfString:methodName options:NSCaseInsensitiveSearch];
-    if (textRange.location == NSNotFound) {
-        NSString *className = [AMIDEHelper getCurrentClassName];
-        NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
-        NSString *endString = @"@end";
-        NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
-        if (startRange.location == NSNotFound) {
-            startRange = NSMakeRange(0, textView.textStorage.string.length);
-        }
-        NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
-        NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
-        
-        [textView scrollRangeToVisible:endRange];
-        
-        NSString *newString = [NSString stringWithFormat:@"\n%@{\n    \n}\n\n%@", methodName, endString];
-        [textView insertText:newString replacementRange:endRange];
-
-    }
-    [AMIDEHelper selectText:methodName];
-}
-
-- (void)implementConstStringWithCurrentSelectString:(NSString *)selectString index:(NSInteger)index
-{
-    NSString *methodName = selectString;
-    NSRegularExpression *regex = [NSRegularExpression
-                                  regularExpressionWithPattern:implementMap[index]
-                                  options:NSRegularExpressionAnchorsMatchLines
-                                  error:NULL];
-    
-    NSString *regexString = @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$";
-    
-    [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
-    
-    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
-    
-    NSString *className = [AMIDEHelper getCurrentClassName];
-    NSString *implementationString = [NSString stringWithFormat:@"@implementation %@", className];
-    NSString *endString = @"@end";
-    NSRange startRange = [textView.textStorage.string rangeOfString:implementationString options:NSCaseInsensitiveSearch];
-    NSRange searchRange = NSMakeRange(startRange.location, textView.textStorage.string.length - startRange.location);
-    NSRange endRange = [textView.textStorage.string rangeOfString:endString options:NSCaseInsensitiveSearch range:searchRange];
-    [textView scrollRangeToVisible:endRange];
-    __block NSMutableString *stringResult = [NSMutableString string];
-    
-    __block NSString *firstResult = @"";
-    [regex enumerateMatchesInString:methodName
-                            options:0
-                              range:NSMakeRange(0, methodName.length)
-                         usingBlock:^(NSTextCheckingResult *results, NSMatchingFlags flags, BOOL *stop) {
-
-                             NSString *result = [methodName substringWithRange:[results rangeAtIndex:results.numberOfRanges-1]];
-                             NSLog(@"Const string name is: %@",result);
-                             NSString *matchRegex = [NSString stringWithFormat:regexString, result];
-                            if (![textView.textStorage.string matches:matchRegex]) {
-                              [stringResult appendFormat:@"NSString * const %@ = @\"<#value#>\";\n", result];
-                              
-                            }
-                             if (firstResult.length == 0) {
-                                 firstResult = result;
-                             }
-
-                             
-                         }];
     if (stringResult.length > 0) {
-        NSString *newString = [NSString stringWithFormat:@"%@\n\n@end", stringResult];
-        [textView insertText:newString replacementRange:endRange];
+        [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
+    }
+    if (selectTextDictionary != nil) {
+        if ([selectTextDictionary[@"type"] integerValue] == 0) {
+            [AMIDEHelper selectText:selectTextDictionary[@"firstSelectMethod"]];
+        }else {
+            [AMIDEHelper selectTextWithRegex:selectTextDictionary[@"firstSelectMethod"] highlightText:@"<#value#>"];
+        }
         
     }
-    NSString *matchRegex = [NSString stringWithFormat:regexString, firstResult];
-    [AMIDEHelper selectTextWithRegex:matchRegex highlightText:@"<#value#>"];
     
 }
 
