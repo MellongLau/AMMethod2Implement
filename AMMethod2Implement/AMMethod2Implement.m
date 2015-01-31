@@ -9,6 +9,11 @@
 #import "AMMethod2Implement.h"
 #import "AMIDEHelper.h"
 
+typedef enum {
+    AMImplementTypeMethod = 0,
+    AMImplementTypeConstString
+}AMImplementType;
+
 static AMMethod2Implement *sharedPlugin;
 
 @interface AMMethod2Implement()
@@ -41,7 +46,7 @@ static AMMethod2Implement *sharedPlugin;
         NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
         if (menuItem) {
             [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-            NSString *title = [NSString stringWithFormat:@"Implement Method (v%@)", [self getBundleVersion]];
+            NSString *title            = [NSString stringWithFormat:@"Implement Method (v%@)", [self getBundleVersion]];
             NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
             [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
             [actionMenuItem setTarget:self];
@@ -63,9 +68,6 @@ static NSArray *implementMap;
 static NSArray *declareMap;
 static NSArray *implementContent;
 
-
-static NSDictionary *dataMap;
-
 - (void)initData
 {
     declareMap =    @[
@@ -73,7 +75,7 @@ static NSDictionary *dataMap;
                       @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$"
                       ];
     implementMap = @[
-                     @"^(%@)$",
+                     @"",
                      @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$"
                      ];
     
@@ -87,20 +89,22 @@ static NSDictionary *dataMap;
 // For menu item:
 - (void)doImplementMethodAction
 {
-    NSString *selectString = [AMIDEHelper getCurrentSelectMethod];
+    NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
 
-    NSArray *result = [AMIDEHelper getCurrentClassNameByCurrentSelectedRange];
-    
+    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRange];
+
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
-    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
-    NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:result mFileText:textView.textStorage.string];
-    NSRange range        = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+    NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
+    NSString *mFileText                = textView.textStorage.string;
+    NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName mFileText:mFileText];
+    NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
     [textView scrollRangeToVisible:range];
 
     NSDictionary *selectTextDictionary = nil;
-    BOOL shouldSelect = YES;
-    NSArray *methodList = [selectString componentsSeparatedByString:@";"];
-    NSMutableString *stringResult = [NSMutableString string];
+    BOOL shouldSelect                  = YES;
+    NSArray *methodList                = [selectString componentsSeparatedByString:@";"];
+    NSMutableString *stringResult      = [NSMutableString string];
+    
     for (NSString *methodItem in methodList) {
         if (methodItem.length == 0) {
             continue;
@@ -118,33 +122,28 @@ static NSDictionary *dataMap;
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
 
-                NSRange textRange = NSMakeRange(NSNotFound, 0);
-                if (matchIndex == 0) {
-                    textRange = [textView.textStorage.string rangeOfString:methodItem options:NSCaseInsensitiveSearch];
+                BOOL isImplementFound = NO;
+                if (matchIndex == AMImplementTypeMethod) {
                     
-
-                } else if (matchIndex == 1) {
+                    NSRange textRange = [mFileText rangeOfString:methodItem options:NSCaseInsensitiveSearch];
+                    isImplementFound = textRange.location != NSNotFound;
+                    
+                } else if (matchIndex == AMImplementTypeConstString) {
+                    
                     NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
-                    NSLog(@"matchRegex:%@", matchRegex);
-                    NSRegularExpression *regularExpression = [NSRegularExpression
-                                                              regularExpressionWithPattern:matchRegex
-                                                              options:NSRegularExpressionAnchorsMatchLines
-                                                              error:NULL];
-                    BOOL isMatch = [regularExpression numberOfMatchesInString:textView.textStorage.string options:0 range:contentRange] > 0;
-                    if (isMatch) {
-                        textRange = NSMakeRange(0, 1);
-                    }
+                    isImplementFound = [mFileText matches:matchRegex range:contentRange];
+
                 }
                 
-                if (textRange.location != NSNotFound) {
+                if (isImplementFound) {
                     if (selectTextDictionary == nil) {
                         selectTextDictionary = @{@"type":@(matchIndex),
-                                                 @"firstSelectMethod":matchIndex==0?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                                                 @"firstSelectMethod":matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
                     }
                 }else {
                     if (shouldSelect) {
                         selectTextDictionary = @{@"type":@(matchIndex),
-                                                 @"firstSelectMethod":matchIndex==0?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                                                 @"firstSelectMethod":matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
                         shouldSelect = NO;
                     }
                     
@@ -153,22 +152,20 @@ static NSDictionary *dataMap;
                 }
                 
             }
-            
-
-            
-
         }
     }
+    
     if (stringResult.length > 0) {
         [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
     }
+    
     if (selectTextDictionary != nil) {
-        if ([selectTextDictionary[@"type"] integerValue] == 0) {
+        NSInteger type = [selectTextDictionary[@"type"] integerValue];
+        if (type == AMImplementTypeMethod) {
             [AMIDEHelper selectText:selectTextDictionary[@"firstSelectMethod"]];
-        }else {
+        }else if (type == AMImplementTypeConstString){
             [AMIDEHelper selectTextWithRegex:selectTextDictionary[@"firstSelectMethod"] highlightText:@"<#value#>"];
         }
-        
     }
     
 }

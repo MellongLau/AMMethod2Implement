@@ -13,6 +13,7 @@
 
 
 - (BOOL)matches:(NSString *)regex;
+- (BOOL)matches:(NSString *)regex range:(NSRange)searchRange;
 - (NSRange)firstMatch:(NSString *)regex;
 - (NSInteger)getMatchIndexWithRegexList:(NSArray *)regexList;
 

@@ -13,11 +13,17 @@
 - (BOOL)matches:(NSString *)regex
 {
 
+    return [self matches:regex range:NSMakeRange(0, self.length)];
+}
+
+- (BOOL)matches:(NSString *)regex range:(NSRange)searchRange
+{
+    
     NSRegularExpression *regularExpression = [NSRegularExpression
                                               regularExpressionWithPattern:regex
                                               options:NSRegularExpressionAnchorsMatchLines
                                               error:NULL];
-    BOOL isMatch = [regularExpression numberOfMatchesInString:self options:0 range:NSMakeRange(0, self.length)] > 0;
+    BOOL isMatch = [regularExpression numberOfMatchesInString:self options:0 range:searchRange] > 0;
     return isMatch;
 }
 
