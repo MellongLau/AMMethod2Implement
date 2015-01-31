@@ -75,8 +75,8 @@ static NSArray *implementContent;
                      ];
     
     implementContent = @[
-                     @"\n\n%@{\n\t<#value#>\n}\n",
-                     @"\n\nNSString * const %@ = @\"<#value#>\";\n"
+                     @"\n\n%@{\n\t<#value#>\n}",
+                     @"\n\nNSString * const %@ = @\"<#value#>\";"
                      ];
 }
 
@@ -96,6 +96,7 @@ static NSArray *implementContent;
 
     BOOL shouldSelect = YES;
     NSArray *methodList = [selectString componentsSeparatedByString:@";"];
+    NSMutableString *stringResult = [NSMutableString string];
     for (NSString *methodItem in methodList) {
         if (methodItem.length == 0) {
             continue;
@@ -128,14 +129,14 @@ static NSArray *implementContent;
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
-                NSString *newString = [NSString stringWithFormat:implementContent[matchIndex], result];
+                [stringResult appendFormat:implementContent[matchIndex], result];
                 NSLog(@"Result:%@", result);
-                [textView insertText:newString replacementRange:range];
+                
             }
 
         }
     }
-
+    [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
 }
 
 - (void)implementObjcMethodWithCurrentSelectString:(NSString *)selectString

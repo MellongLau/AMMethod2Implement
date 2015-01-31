@@ -148,7 +148,7 @@
 {
     if (classNameItemList.count > 1) {
         
-        NSString *regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@.+?@end", classNameItemList[1]];
+        NSString *regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@.+?(?=\\s{0,1000}@end)", classNameItemList[1]];
         if (classNameItemList.count == 3) {
             regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)", classNameItemList[1], classNameItemList[2]];
         }
