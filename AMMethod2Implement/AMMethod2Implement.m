@@ -94,10 +94,11 @@ static NSDictionary *dataMap;
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
     NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:result mFileText:textView.textStorage.string];
-    NSRange range = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+    NSRange range        = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
     [textView scrollRangeToVisible:range];
 
     NSDictionary *selectTextDictionary = nil;
+    BOOL shouldSelect = YES;
     NSArray *methodList = [selectString componentsSeparatedByString:@";"];
     NSMutableString *stringResult = [NSMutableString string];
     for (NSString *methodItem in methodList) {
@@ -116,7 +117,7 @@ static NSDictionary *dataMap;
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
-                //
+
                 NSRange textRange = NSMakeRange(NSNotFound, 0);
                 if (matchIndex == 0) {
                     textRange = [textView.textStorage.string rangeOfString:methodItem options:NSCaseInsensitiveSearch];
@@ -141,7 +142,12 @@ static NSDictionary *dataMap;
                                                  @"firstSelectMethod":matchIndex==0?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
                     }
                 }else {
-                
+                    if (shouldSelect) {
+                        selectTextDictionary = @{@"type":@(matchIndex),
+                                                 @"firstSelectMethod":matchIndex==0?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                        shouldSelect = NO;
+                    }
+                    
                     [stringResult appendFormat:implementContent[matchIndex], result];
                     NSLog(@"Result:%@", result);
                 }

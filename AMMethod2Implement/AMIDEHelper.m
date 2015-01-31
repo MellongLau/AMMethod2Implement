@@ -60,8 +60,11 @@
 {
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
     NSRange textRange = [textView.textStorage.string rangeOfString:text options:NSCaseInsensitiveSearch];
-    [textView setSelectedRange:textRange];
-    [textView scrollRangeToVisible:textRange];
+    if (textRange.location != NSNotFound)
+    {
+        [textView setSelectedRange:textRange];
+        [textView scrollRangeToVisible:textRange];
+    }
 }
 
 + (void)selectTextWithRegex:(NSString *)regex highlightText:(NSString *)text
