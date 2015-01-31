@@ -61,7 +61,7 @@ static AMMethod2Implement *sharedPlugin;
 
 - (NSString *)getBundleVersion
 {
-    return @"1.7";
+    return @"2.0";
 }
 
 static NSArray *implementMap;
