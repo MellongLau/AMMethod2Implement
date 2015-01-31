@@ -8,6 +8,14 @@ A simple Xcode plugin to generate implement code for the selected method and con
 2. Support multiline method and const string implement.
 3. Support categories.
 
+
+## Usage
+
+Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
+
+![usageScreenshot.gif](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/usageScreenshot.gif)
+
+
 ## Install
 
 You can:
@@ -28,13 +36,6 @@ Install via [Alcatraz](http://alcatraz.io/)
 ![AMMethodImplementInAlcatraz.png](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/AMMethodImplementInAlcatraz.png)
 
 In any case, relaunch Xcode to load it.
-
-
-## Usage
-
-Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
-
-![usageScreenshot.gif](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/usageScreenshot.gif)
 
 
 ## Support
