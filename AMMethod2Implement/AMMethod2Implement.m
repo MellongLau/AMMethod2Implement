@@ -43,25 +43,31 @@ static AMMethod2Implement *sharedPlugin;
         self.bundle = plugin;
         
         // Create menu items, initialize UI, etc.
-        NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-        if (menuItem) {
-            [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-            NSString *title            = [NSString stringWithFormat:@"Implement Method (v%@)", [self getBundleVersion]];
-            NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
-            [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
-            [actionMenuItem setTarget:self];
-            [[menuItem submenu] addItem:actionMenuItem];
-        }
         
+        [self createMenuItem];
         [self initData];
         
     }
     return self;
 }
 
+- (void)createMenuItem
+{
+    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
+    if (menuItem) {
+        [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+        NSString *title            = [NSString stringWithFormat:@"Implement Method (v%@)", [self getBundleVersion]];
+        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
+        [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
+        [actionMenuItem setTarget:self];
+        [[menuItem submenu] addItem:actionMenuItem];
+    }
+}
+
 - (NSString *)getBundleVersion
 {
-    return @"2.0";
+    NSString *bundleVersion = [[self.bundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    return bundleVersion;
 }
 
 static NSArray *implementMap;
