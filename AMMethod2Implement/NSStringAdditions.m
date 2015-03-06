@@ -50,5 +50,11 @@
     return result.range;
 }
 
+- (NSString *)removeSpaceAndNewline
+{
+    NSString *temp = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
+    return text;
+}
 
 @end

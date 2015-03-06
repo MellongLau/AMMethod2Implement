@@ -32,6 +32,23 @@
     return filePath;
 }
 
++ (BOOL)isHeaderFile
+{
+    NSString *filePath = [AMIDEHelper getCurrentEditFilePath];
+    if ([filePath rangeOfString:@".h"].length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
++ (NSString *)getHFilePathOfCurrentEditFile
+{
+    NSString *filePath = [AMIDEHelper getCurrentEditFilePath];
+    filePath = [filePath stringByDeletingPathExtension];
+    filePath = [filePath stringByAppendingPathExtension:@"h"];
+    return filePath;
+}
+
 + (NSString *)getMFilePathOfCurrentEditFile
 {
     NSString *filePath = [AMIDEHelper getCurrentEditFilePath];
@@ -114,7 +131,7 @@
     return nil;
 }
 
-+ (NSArray *)getCurrentClassNameByCurrentSelectedRange
++ (NSArray *)getCurrentClassNameByCurrentSelectedRangeWithFileType:(AMIDEFileType)fileType
 {
     NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
     NSArray* selectedRanges = [textView selectedRanges];
@@ -122,9 +139,14 @@
         NSRange selectedRange = [[selectedRanges objectAtIndex:0] rangeValue];
         NSString *text = textView.textStorage.string;
         NSRange lineRange = [text lineRangeForRange:selectedRange];
-        ;
+        NSString *regexString = nil;
+        if (fileType == AMIDEFileTypeHFile) {
+            regexString = @"(?<=@interface)\\s+(\\w+)\\s*\\(?(\\w*)\\)?";
+        }else if (fileType == AMIDEFileTypeMFile) {
+            regexString = @"(?<=@implementation)\\s+(\\w+)\\s*\\(?(\\w*)\\)?";
+        }
         NSRegularExpression *regex = [NSRegularExpression
-                                      regularExpressionWithPattern:@"(?<=@interface)\\s+(\\w+)\\s*\\(?(\\w*)\\)?"
+                                      regularExpressionWithPattern:regexString
                                       options:0
                                       error:NULL];
         NSArray *results = [regex matchesInString:textView.textStorage.string options:0 range:NSMakeRange(0, lineRange.location)];

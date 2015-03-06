@@ -92,20 +92,16 @@ static NSArray *implementContent;
 }
 
 
-// For menu item:
-- (void)doImplementMethodAction
+- (void)implementMethod:(NSArray *)currentClassName selectString:(NSString *)selectString
 {
-    NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
-
-    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRange];
-
+    
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
     NSString *mFileText                = textView.textStorage.string;
     NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName mFileText:mFileText];
     NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
     [textView scrollRangeToVisible:range];
-
+    
     NSDictionary *selectTextDictionary = nil;
     BOOL shouldSelect                  = YES;
     NSArray *methodList                = [selectString componentsSeparatedByString:@";"];
@@ -115,11 +111,11 @@ static NSArray *implementContent;
         if (methodItem.length == 0) {
             continue;
         }
-
+        
         NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:declareMap];
         if (matchIndex != -1)
         {
-
+            
             NSRegularExpression *regex = [NSRegularExpression
                                           regularExpressionWithPattern:declareMap[matchIndex]
                                           options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
@@ -127,7 +123,7 @@ static NSArray *implementContent;
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
-
+                
                 BOOL isImplementFound = NO;
                 if (matchIndex == AMImplementTypeMethod) {
                     
@@ -138,7 +134,7 @@ static NSArray *implementContent;
                     
                     NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
                     isImplementFound = [mFileText matches:matchRegex range:contentRange];
-
+                    
                 }
                 
                 if (isImplementFound) {
@@ -173,14 +169,54 @@ static NSArray *implementContent;
             [AMIDEHelper selectTextWithRegex:selectTextDictionary[@"firstSelectMethod"] highlightText:@"<#value#>"];
         }
     }
+}
+
+- (void)declareMethod:(NSString *)selectString
+{
+    NSInteger matchIndex = [selectString getMatchIndexWithRegexList:declareMap];
+    [AMIDEHelper openFile:[AMIDEHelper getHFilePathOfCurrentEditFile]];
+    NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
+    NSString *hFileText                = textView.textStorage.string;
+    //        NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
+    if (matchIndex != -1)
+    {
+        if (matchIndex == AMImplementTypeMethod) {
+            
+            NSString *declareMethod = [[selectString removeSpaceAndNewline] stringByAppendingString:@";"];
+            NSRange textRange = [hFileText rangeOfString:selectString options:NSCaseInsensitiveSearch];
+            if (textRange.location == NSNotFound)
+            {
+                NSRange range = [hFileText rangeOfString:@"@end"];
+                if (range.location != NSNotFound) {
+                    range = NSMakeRange(range.location, range.length-4);
+                    [textView insertText:[declareMethod stringByAppendingString:@"\n\n"] replacementRange:range];
+                    [textView scrollRangeToVisible:range];
+                    [AMIDEHelper selectText:declareMethod];
+                }
+                
+            }
+            
+        }
+    }
+}
+
+// For menu item:
+- (void)doImplementMethodAction
+{
+    NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
     
+    if ([AMIDEHelper isHeaderFile]) {
+        NSArray *currentClassName      = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeHFile];
+        [self implementMethod:currentClassName selectString:selectString];
+    }else {
+        [self declareMethod:selectString];
+        
+    }
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
 
 @end

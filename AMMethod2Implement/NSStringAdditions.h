@@ -17,4 +17,6 @@
 - (NSRange)firstMatch:(NSString *)regex;
 - (NSInteger)getMatchIndexWithRegexList:(NSArray *)regexList;
 
+- (NSString *)removeSpaceAndNewline;
+
 @end
