@@ -169,26 +169,34 @@
     return nil;
 }
 
-+ (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText
++ (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList fileText:(NSString *)fileText fileType:(AMIDEFileType)fileType
 {
     if (classNameItemList.count > 1) {
-        
-        NSString *regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@.+?(?=\\s{0,1000}@end)", classNameItemList[1]];
-        if (classNameItemList.count == 3) {
-            regexPattern = [NSString stringWithFormat:@"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)", classNameItemList[1], classNameItemList[2]];
+        NSString *normalImplementationFormatString = @"@implementation\\s+%@.+?(?=\\s{0,1000}@end)";
+        if (fileType == AMIDEFileTypeHFile) {
+            normalImplementationFormatString = @"@interface\\s+%@.+?(?=\\s{0,1000}@end)";
         }
-        NSLog(@"%@",regexPattern);
+
+        NSString *regexPattern = [NSString stringWithFormat:normalImplementationFormatString, classNameItemList[1]];
+        if (classNameItemList.count == 3) {
+            NSString *categoryImplementationFormatString = @"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)";
+            if (fileType == AMIDEFileTypeHFile) {
+                categoryImplementationFormatString = @"@interface\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)";
+            }
+            regexPattern = [NSString stringWithFormat:categoryImplementationFormatString, classNameItemList[1], classNameItemList[2]];
+        }
+        NSLog(@"#%@",regexPattern);
         
         NSRegularExpression *regex = [NSRegularExpression
                                       regularExpressionWithPattern:regexPattern
                                       options:NSRegularExpressionDotMatchesLineSeparators
                                       error:NULL];
         
-        NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:mFileText
+        NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:fileText
                                                                      options:0
-                                                                       range:NSMakeRange(0, mFileText.length)];
+                                                                       range:NSMakeRange(0, fileText.length)];
         
-        //        NSLog(@"%@", [mFileText substringWithRange:textCheckingResult.range]);
+        NSLog(@"#%@", [fileText substringWithRange:textCheckingResult.range]);
         if (textCheckingResult.range.location != NSNotFound) {
             return textCheckingResult.range;
         }

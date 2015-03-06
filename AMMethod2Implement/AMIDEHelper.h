@@ -29,6 +29,7 @@ typedef enum {
 + (NSString *)getCurrentSelectMethod;
 + (NSArray *)getCurrentClassNameByCurrentSelectedRangeWithFileType:(AMIDEFileType)fileType;
 + (NSRange)getInsertRangeWithClassImplementContentRange:(NSRange)range;
-+ (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList mFileText:(NSString *)mFileText;
+
++ (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList fileText:(NSString *)fileText fileType:(AMIDEFileType)fileType;
 
 @end

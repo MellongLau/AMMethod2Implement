@@ -98,7 +98,7 @@ static NSArray *implementContent;
     [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
     NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
     NSString *mFileText                = textView.textStorage.string;
-    NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName mFileText:mFileText];
+    NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:mFileText fileType:AMIDEFileTypeMFile];
     NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
     [textView scrollRangeToVisible:range];
     
@@ -171,31 +171,37 @@ static NSArray *implementContent;
     }
 }
 
-- (void)declareMethod:(NSString *)selectString
-{
+- (void)declareMethod:(NSString *)selectString{
+    
     NSInteger matchIndex = [selectString getMatchIndexWithRegexList:declareMap];
+    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
     [AMIDEHelper openFile:[AMIDEHelper getHFilePathOfCurrentEditFile]];
     NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
     NSString *hFileText                = textView.textStorage.string;
-    //        NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
+    
     if (matchIndex != -1)
     {
         if (matchIndex == AMImplementTypeMethod) {
-            
-            NSString *declareMethod = [[selectString removeSpaceAndNewline] stringByAppendingString:@";"];
-            NSRange textRange = [hFileText rangeOfString:selectString options:NSCaseInsensitiveSearch];
+
+            NSRange trimStringRange = [selectString rangeOfString:@"{"];
+            if (trimStringRange.location != NSNotFound) {
+                selectString = [selectString substringWithRange:NSMakeRange(0, trimStringRange.location)];
+                NSLog(@"#2trimString: %@", selectString);
+            }
+            NSString *trimString = [selectString removeSpaceAndNewline];
+            NSString *declareMethod = [trimString stringByAppendingString:@";"];
+            NSRange textRange = [hFileText rangeOfString:trimString options:NSCaseInsensitiveSearch];
             if (textRange.location == NSNotFound)
             {
-                NSRange range = [hFileText rangeOfString:@"@end"];
+                NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:hFileText fileType:AMIDEFileTypeHFile];
+                NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
                 if (range.location != NSNotFound) {
-                    range = NSMakeRange(range.location, range.length-4);
-                    [textView insertText:[declareMethod stringByAppendingString:@"\n\n"] replacementRange:range];
-                    [textView scrollRangeToVisible:range];
-                    [AMIDEHelper selectText:declareMethod];
+                    [textView insertText:[NSString stringWithFormat:@"\n%@\n", declareMethod] replacementRange:range];
+                    
                 }
                 
             }
-            
+            [AMIDEHelper selectText:trimString];
         }
     }
 }
