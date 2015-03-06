@@ -190,11 +190,12 @@ static NSArray *implementContent;
             }
             NSString *trimString = [selectString removeSpaceAndNewline];
             NSString *declareMethod = [trimString stringByAppendingString:@";"];
-            NSRange textRange = [hFileText rangeOfString:trimString options:NSCaseInsensitiveSearch];
+            NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:hFileText fileType:AMIDEFileTypeHFile];
+            NSRange textRange = [hFileText rangeOfString:trimString options:NSCaseInsensitiveSearch range:contentRange];
             if (textRange.location == NSNotFound)
             {
-                NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:hFileText fileType:AMIDEFileTypeHFile];
-                NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+                
+                NSRange range = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
                 if (range.location != NSNotFound) {
                     [textView insertText:[NSString stringWithFormat:@"\n%@\n", declareMethod] replacementRange:range];
                     
