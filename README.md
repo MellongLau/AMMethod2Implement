@@ -40,7 +40,7 @@ In any case, relaunch Xcode to load it.
 
 ## Support
 
-Developed and tested against Xcode 6.1.1.
+Developed and tested against Xcode 6+.
 
 
 ## License
