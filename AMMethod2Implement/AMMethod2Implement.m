@@ -96,29 +96,34 @@ static NSArray *implementContent;
 }
 
 
-- (void)implementMethod:(NSArray *)currentClassName selectString:(NSString *)selectString
+- (void)implementMethod:selectString
 {
-    
-    [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
-    NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
-    NSString *mFileText                = textView.textStorage.string;
-    NSRange contentRange               = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:mFileText fileType:AMIDEFileTypeMFile];
-    NSRange range                      = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
-    [textView scrollRangeToVisible:range];
-    
-    NSDictionary *selectTextDictionary = nil;
-    BOOL shouldSelect                  = YES;
+    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeHFile];
     NSArray *methodList                = [selectString componentsSeparatedByString:@";"];
     NSMutableString *stringResult      = [NSMutableString string];
-    
+    NSDictionary *selectTextDictionary = nil;
+    BOOL shouldSelect                  = YES;
+    BOOL hasOpenMFile = NO;
     for (NSString *methodItem in methodList) {
         if (methodItem.length == 0) {
             continue;
         }
         
+        
+
         NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:declareMap];
         if (matchIndex != -1)
         {
+            if (hasOpenMFile == NO) {
+                
+                [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
+                hasOpenMFile = YES;
+            }
+
+            NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+            NSString *mFileText  = textView.textStorage.string;
+            NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:mFileText fileType:AMIDEFileTypeMFile];
+ 
             
             NSRegularExpression *regex = [NSRegularExpression
                                           regularExpressionWithPattern:declareMap[matchIndex]
@@ -162,6 +167,9 @@ static NSArray *implementContent;
     }
     
     if (stringResult.length > 0) {
+        NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+        NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:textView.textStorage.string fileType:AMIDEFileTypeMFile];
+        NSRange range        = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
         [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
     }
     
@@ -227,10 +235,7 @@ static NSArray *implementContent;
                         NSRange range             = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
                         [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
                     }
-
-                    NSString *methodString = [stringResult componentsSeparatedByString:@"{"][0];
-                    methodString = [methodString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    [AMIDEHelper selectText:methodString];
+                    [AMIDEHelper selectTextWithRegex:matchRegex highlightText:@""];
                 }
             }
         }
@@ -243,8 +248,8 @@ static NSArray *implementContent;
     NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
     
     if ([AMIDEHelper isHeaderFile]) {
-        NSArray *currentClassName      = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeHFile];
-        [self implementMethod:currentClassName selectString:selectString];
+        
+        [self implementMethod:selectString];
     }else {
         [self declareMethod:selectString];
         
