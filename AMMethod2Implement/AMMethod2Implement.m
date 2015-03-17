@@ -11,7 +11,8 @@
 
 typedef enum {
     AMImplementTypeMethod = 0,
-    AMImplementTypeConstString
+    AMImplementTypeConstString,
+    AMImplementTypeSelector
 }AMImplementType;
 
 static AMMethod2Implement *sharedPlugin;
@@ -78,16 +79,19 @@ static NSArray *implementContent;
 {
     declareMap =    @[
                       @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)$",
-                      @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$"
+                      @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$",
+                      @"\\@selector\\((\\w+\\:)\\)"
                       ];
     implementMap = @[
                      @"",
-                     @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$"
+                     @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$",
+                     @"^([-+]\\s*\\(void\\)\\s*%@\\s*\\(\\w+\\s*\\**\\)\\s*\\w+)"
                      ];
     
     implementContent = @[
                      @"\n\n%@ {\n\t\n}",
-                     @"\n\nNSString * const %@ = @\"<#value#>\";"
+                     @"\n\nNSString * const %@ = @\"<#value#>\";",
+                     @"\n\n- (void)%@(id)sender {\n\t\n}"
                      ];
 }
 
@@ -174,15 +178,14 @@ static NSArray *implementContent;
 - (void)declareMethod:(NSString *)selectString{
     
     NSInteger matchIndex = [selectString getMatchIndexWithRegexList:declareMap];
-    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
-    [AMIDEHelper openFile:[AMIDEHelper getHFilePathOfCurrentEditFile]];
-    NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
-    NSString *hFileText                = textView.textStorage.string;
-    
     if (matchIndex != -1)
     {
+        
         if (matchIndex == AMImplementTypeMethod) {
-
+            NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
+            [AMIDEHelper openFile:[AMIDEHelper getHFilePathOfCurrentEditFile]];
+            NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
+            NSString *hFileText                = textView.textStorage.string;
             NSRange trimStringRange = [selectString rangeOfString:@"{"];
             if (trimStringRange.location != NSNotFound) {
                 selectString = [selectString substringWithRange:NSMakeRange(0, trimStringRange.location)];
@@ -202,7 +205,34 @@ static NSArray *implementContent;
                 }
                 
             }
-            [AMIDEHelper selectText:trimString];
+            [AMIDEHelper selectText:declareMethod];
+            
+        }else if (matchIndex == AMImplementTypeSelector) {
+            NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
+            NSString *fileText                = textView.textStorage.string;
+            NSRegularExpression *regex = [NSRegularExpression
+                                          regularExpressionWithPattern:declareMap[matchIndex]
+                                          options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
+                                          error:NULL];
+            NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:selectString options:0 range:NSMakeRange(0, selectString.length)];
+            if (textCheckingResult.range.location != NSNotFound) {
+                NSString *result = [selectString substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
+                if (result.length > 0) {
+                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
+                    NSString *stringResult = [NSString stringWithFormat:implementContent[matchIndex], result];
+                    BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
+                    if (!isImplementFound) {
+                        NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
+                        NSRange contentRange      = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:fileText fileType:AMIDEFileTypeMFile];
+                        NSRange range             = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+                        [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
+                    }
+
+                    NSString *methodString = [stringResult componentsSeparatedByString:@"{"][0];
+                    methodString = [methodString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    [AMIDEHelper selectText:methodString];
+                }
+            }
         }
     }
 }
