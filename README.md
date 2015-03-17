@@ -3,10 +3,12 @@ AMMethod2Implement
 
 A simple Xcode plugin to generate implement code for the selected method and const string.
 
-##New Feature(v2.0):
+##Features(v2.3):
 1. Support `extern NSString * const` implement.
 2. Support multiline method and const string implement.
 3. Support categories.
+4. Support declare method(New).
+5. Support `@select(method:)` implement(New).
 
 
 ## Usage
