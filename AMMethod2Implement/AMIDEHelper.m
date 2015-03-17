@@ -196,7 +196,7 @@
                                                                      options:0
                                                                        range:NSMakeRange(0, fileText.length)];
         
-        NSLog(@"#%@", [fileText substringWithRange:textCheckingResult.range]);
+//        NSLog(@"#%@", [fileText substringWithRange:textCheckingResult.range]);
         if (textCheckingResult.range.location != NSNotFound) {
             return textCheckingResult.range;
         }
