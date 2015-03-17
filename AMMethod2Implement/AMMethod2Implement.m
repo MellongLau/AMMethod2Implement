@@ -176,7 +176,8 @@ static NSArray *implementContent;
     if (selectTextDictionary != nil) {
         NSInteger type = [selectTextDictionary[@"type"] integerValue];
         if (type == AMImplementTypeMethod) {
-            [AMIDEHelper selectText:selectTextDictionary[@"firstSelectMethod"]];
+            NSString *trimString = [selectTextDictionary[@"firstSelectMethod"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [AMIDEHelper selectText:trimString];
         }else if (type == AMImplementTypeConstString){
             [AMIDEHelper selectTextWithRegex:selectTextDictionary[@"firstSelectMethod"] highlightText:@"<#value#>"];
         }
