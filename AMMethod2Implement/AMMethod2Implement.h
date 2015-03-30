@@ -9,5 +9,6 @@
 #import <AppKit/AppKit.h>
 
 @interface AMMethod2Implement : NSObject
++ (void)pluginDidLoad:(NSBundle *)plugin;
 
 @end

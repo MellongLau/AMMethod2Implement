@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D3E07CB71AC951E1007F8F79 /* AMSettingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */; };
+		D3E07CBA1AC95228007F8F79 /* AMSettingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */; };
 		FDBF0B9C18FD6C5C00C5759C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */; };
 		FDBF0B9E18FD6C5C00C5759C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */; };
 		FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDBF0BA218FD6C5C00C5759C /* InfoPlist.strings */; };
@@ -19,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D3E07CB41AC951E1007F8F79 /* AMSettingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSettingWindowController.h; sourceTree = "<group>"; };
+		D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSettingWindowController.m; sourceTree = "<group>"; };
+		D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AMSettingWindowController.xib; sourceTree = "<group>"; };
 		FDBF0B9818FD6C5C00C5759C /* AMMethod2Implement.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMMethod2Implement.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -87,6 +92,9 @@
 				FDBF0BAF18FD70A300C5759C /* AMXcodeHelper.m */,
 				FDBF0BB118FD71DB00C5759C /* AMIDEHelper.h */,
 				FDBF0BB218FD71DB00C5759C /* AMIDEHelper.m */,
+				D3E07CB41AC951E1007F8F79 /* AMSettingWindowController.h */,
+				D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */,
+				D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */,
 				FDBF0BB418FD7D9600C5759C /* NSStringAdditions.h */,
 				FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */,
 				FDBF0BA018FD6C5C00C5759C /* Supporting Files */,
@@ -156,6 +164,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3E07CBA1AC95228007F8F79 /* AMSettingWindowController.xib in Resources */,
 				FDBF0BBA18FD845800C5759C /* README.md in Resources */,
 				FDBF0BB918FD845800C5759C /* LICENSE in Resources */,
 				FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */,
@@ -172,6 +181,7 @@
 				FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */,
 				FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */,
 				FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */,
+				D3E07CB71AC951E1007F8F79 /* AMSettingWindowController.m in Sources */,
 				FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

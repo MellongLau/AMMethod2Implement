@@ -8,6 +8,7 @@
 
 #import "AMMethod2Implement.h"
 #import "AMIDEHelper.h"
+#import "AMSettingWindowController.h"
 
 typedef enum {
     AMImplementTypeMethod = 0,
@@ -20,6 +21,7 @@ static AMMethod2Implement *sharedPlugin;
 @interface AMMethod2Implement()
 
 @property (nonatomic, strong) NSBundle *bundle;
+@property (nonatomic, strong) AMSettingWindowController * settingWindowController;
 
 @end
 
@@ -42,14 +44,21 @@ static AMMethod2Implement *sharedPlugin;
     if (self = [super init]) {
         // reference to plugin's bundle, for resource acccess
         self.bundle = plugin;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidFinishLaunching:)
+                                                     name:NSApplicationDidFinishLaunchingNotification
+                                                   object:nil];
         
-        // Create menu items, initialize UI, etc.
-        
-        [self createMenuItem];
-        [self initData];
         
     }
     return self;
+}
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+    [self initData];
+    [self createMenuItem];
 }
 
 - (void)createMenuItem
@@ -246,6 +255,12 @@ static NSArray *implementContent;
 // For menu item:
 - (void)doImplementMethodAction
 {
+    if (self.settingWindowController == nil) {
+        self.settingWindowController = [[AMSettingWindowController alloc] initWithWindowNibName:@"AMSettingWindowController"];
+        
+    }
+    
+    [self.settingWindowController showWindow:self.settingWindowController];
     NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
     
     if ([AMIDEHelper isHeaderFile]) {
