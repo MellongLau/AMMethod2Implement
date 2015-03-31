@@ -7,6 +7,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AMSettingWindowController">
             <connections>
+                <outlet property="controlTextField" destination="ZRC-WT-cX3" id="oBN-Q2-h9A"/>
+                <outlet property="shortcutMask1" destination="jdu-Mm-6Pw" id="t87-ae-Mj9"/>
+                <outlet property="shortcutMask2" destination="fhP-iZ-WcY" id="yXN-HY-cOh"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -98,6 +101,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="onApplyButtonClicked:" target="-2" id="P1v-a5-bxq"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
