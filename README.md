@@ -1,7 +1,7 @@
 AMMethod2Implement
 ==================
 
-A simple Xcode plugin to generate implement code for the selected method and const string.
+A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.
 
 ##Features(v2.3):
 1. Support `extern NSString * const` implement.
@@ -55,6 +55,11 @@ In any case, relaunch Xcode to load it.
 ## Support
 
 Developed and tested against Xcode 6+.
+
+## Todo
+
+1. Support selector with none parameter or multi parameters.
+2. Support swift.
 
 
 ## License
