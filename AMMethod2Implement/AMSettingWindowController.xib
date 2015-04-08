@@ -96,7 +96,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ej4-8B-nwq">
-                        <rect key="frame" x="302" y="34" width="122" height="19"/>
+                        <rect key="frame" x="308" y="34" width="122" height="19"/>
                         <buttonCell key="cell" type="roundRect" title="Apply" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TRz-pj-I0I">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>

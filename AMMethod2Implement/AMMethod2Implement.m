@@ -9,6 +9,7 @@
 #import "AMMethod2Implement.h"
 #import "AMIDEHelper.h"
 #import "AMSettingWindowController.h"
+#import "AMMenuGenerator.h"
 
 typedef enum {
     AMImplementTypeMethod = 0,
@@ -19,6 +20,11 @@ typedef enum {
 static AMMethod2Implement *sharedPlugin;
 
 @interface AMMethod2Implement()
+{
+    NSArray *_implementMap;
+    NSArray *_declareMap;
+    NSArray *_implementContent;
+}
 
 @property (nonatomic, strong) NSBundle *bundle;
 @property (nonatomic, strong) AMSettingWindowController * settingWindowController;
@@ -26,6 +32,7 @@ static AMMethod2Implement *sharedPlugin;
 @end
 
 @implementation AMMethod2Implement
+
 
 + (void)pluginDidLoad:(NSBundle *)plugin
 {
@@ -63,15 +70,7 @@ static AMMethod2Implement *sharedPlugin;
 
 - (void)createMenuItem
 {
-    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-    if (menuItem) {
-        [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-        NSString *title            = [NSString stringWithFormat:@"Implement Method (v%@)", [self getBundleVersion]];
-        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(doImplementMethodAction) keyEquivalent:@"a"];
-        [actionMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
-        [actionMenuItem setTarget:self];
-        [[menuItem submenu] addItem:actionMenuItem];
-    }
+    [AMMenuGenerator generateMenuItems:self.bundle version:[self getBundleVersion] target:self];
 }
 
 - (NSString *)getBundleVersion
@@ -80,28 +79,14 @@ static AMMethod2Implement *sharedPlugin;
     return bundleVersion;
 }
 
-static NSArray *implementMap;
-static NSArray *declareMap;
-static NSArray *implementContent;
+
 
 - (void)initData
 {
-    declareMap =    @[
-                      @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)$",
-                      @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$",
-                      @"\\@selector\\((\\w+\\:)\\)"
-                      ];
-    implementMap = @[
-                     @"",
-                     @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$",
-                     @"^([-+]\\s*\\(void\\)\\s*%@\\s*\\(\\w+\\s*\\**\\)\\s*\\w+)"
-                     ];
-    
-    implementContent = @[
-                     @"\n\n%@ {\n\t\n}",
-                     @"\n\nNSString * const %@ = @\"<#value#>\";",
-                     @"\n\n- (void)%@(id)sender {\n\t\n}"
-                     ];
+    NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[self.bundle pathForResource:@"RegexData" ofType:@"plist"]];
+    _declareMap        = data[kDeclareMap];
+    _implementMap      = data[kImplementMap];
+    _implementContent  = data[kImplementContent];
 }
 
 
@@ -120,7 +105,7 @@ static NSArray *implementContent;
         
         
 
-        NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:declareMap];
+        NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:_declareMap];
         if (matchIndex != -1)
         {
             if (hasOpenMFile == NO) {
@@ -135,7 +120,7 @@ static NSArray *implementContent;
  
             
             NSRegularExpression *regex = [NSRegularExpression
-                                          regularExpressionWithPattern:declareMap[matchIndex]
+                                          regularExpressionWithPattern:_declareMap[matchIndex]
                                           options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
                                           error:NULL];
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
@@ -150,24 +135,24 @@ static NSArray *implementContent;
                     
                 } else if (matchIndex == AMImplementTypeConstString) {
                     
-                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
+                    NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex], result];
                     isImplementFound = [mFileText matches:matchRegex range:contentRange];
                     
                 }
                 
                 if (isImplementFound) {
                     if (selectTextDictionary == nil) {
-                        selectTextDictionary = @{@"type":@(matchIndex),
-                                                 @"firstSelectMethod":matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                        selectTextDictionary = @{kSelectTextType:@(matchIndex),
+                                                 kSelectTextFirstSelectMethod:matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:_implementMap[matchIndex], result]};
                     }
                 }else {
                     if (shouldSelect) {
-                        selectTextDictionary = @{@"type":@(matchIndex),
-                                                 @"firstSelectMethod":matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:implementMap[matchIndex], result]};
+                        selectTextDictionary = @{kSelectTextType:@(matchIndex),
+                                                 kSelectTextFirstSelectMethod:matchIndex==AMImplementTypeMethod?methodItem:[NSString stringWithFormat:_implementMap[matchIndex], result]};
                         shouldSelect = NO;
                     }
                     
-                    [stringResult appendFormat:implementContent[matchIndex], result];
+                    [stringResult appendFormat:_implementContent[matchIndex], result];
                     NSLog(@"Result:%@", result);
                 }
                 
@@ -183,19 +168,19 @@ static NSArray *implementContent;
     }
     
     if (selectTextDictionary != nil) {
-        NSInteger type = [selectTextDictionary[@"type"] integerValue];
+        NSInteger type = [selectTextDictionary[kSelectTextType] integerValue];
         if (type == AMImplementTypeMethod) {
-            NSString *trimString = [selectTextDictionary[@"firstSelectMethod"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *trimString = [selectTextDictionary[kSelectTextFirstSelectMethod] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             [AMIDEHelper selectText:trimString];
         }else if (type == AMImplementTypeConstString){
-            [AMIDEHelper selectTextWithRegex:selectTextDictionary[@"firstSelectMethod"] highlightText:@"<#value#>"];
+            [AMIDEHelper selectTextWithRegex:selectTextDictionary[kSelectTextFirstSelectMethod] highlightText:@"<#value#>"];
         }
     }
 }
 
 - (void)declareMethod:(NSString *)selectString{
     
-    NSInteger matchIndex = [selectString getMatchIndexWithRegexList:declareMap];
+    NSInteger matchIndex = [selectString getMatchIndexWithRegexList:_declareMap];
     if (matchIndex != -1)
     {
         
@@ -229,15 +214,15 @@ static NSArray *implementContent;
             NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
             NSString *fileText                = textView.textStorage.string;
             NSRegularExpression *regex = [NSRegularExpression
-                                          regularExpressionWithPattern:declareMap[matchIndex]
+                                          regularExpressionWithPattern:_declareMap[matchIndex]
                                           options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
                                           error:NULL];
             NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:selectString options:0 range:NSMakeRange(0, selectString.length)];
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [selectString substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
                 if (result.length > 0) {
-                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
-                    NSString *stringResult = [NSString stringWithFormat:implementContent[matchIndex], result];
+                    NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex], result];
+                    NSString *stringResult = [NSString stringWithFormat:_implementContent[matchIndex], result];
                     BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
                     if (!isImplementFound) {
                         NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
@@ -255,12 +240,12 @@ static NSArray *implementContent;
 // For menu item:
 - (void)doImplementMethodAction
 {
-    if (self.settingWindowController == nil) {
-        self.settingWindowController = [[AMSettingWindowController alloc] initWithWindowNibName:@"AMSettingWindowController"];
-        
-    }
-    
-    [self.settingWindowController showWindow:self.settingWindowController];
+//    if (self.settingWindowController == nil) {
+//        self.settingWindowController = [[AMSettingWindowController alloc] initWithWindowNibName:@"AMSettingWindowController"];
+//        
+//    }
+//    
+//    [self.settingWindowController showWindow:self.settingWindowController];
     NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
     
     if ([AMIDEHelper isHeaderFile]) {

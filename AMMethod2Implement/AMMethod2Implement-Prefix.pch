@@ -8,4 +8,5 @@
     #import <Foundation/Foundation.h>
     #import "AMXcodeHelper.h"
     #import "NSStringAdditions.h"
+    #import "AMConstString.h"
 #endif

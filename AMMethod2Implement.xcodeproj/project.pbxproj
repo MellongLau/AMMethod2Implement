@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3E07CB71AC951E1007F8F79 /* AMSettingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */; };
+		D301792F1ACBA5150053550D /* AMSettingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */; };
+		D311670E1ACB92250039DB28 /* AMConstString.m in Sources */ = {isa = PBXBuildFile; fileRef = D311670D1ACB92250039DB28 /* AMConstString.m */; };
+		D37A47C41ACB974700E1491F /* AMMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D37A47C31ACB974700E1491F /* AMMenuGenerator.m */; };
+		D3BC0AC01ACB8EAF0028F983 /* RegexData.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3BC0ABF1ACB8EAF0028F983 /* RegexData.plist */; };
+		D3BC0AC21ACB8EBD0028F983 /* MenuItemData.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3BC0AC11ACB8EBD0028F983 /* MenuItemData.plist */; };
 		D3E07CBA1AC95228007F8F79 /* AMSettingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */; };
 		FDBF0B9C18FD6C5C00C5759C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */; };
 		FDBF0B9E18FD6C5C00C5759C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */; };
@@ -21,6 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D311670C1ACB92250039DB28 /* AMConstString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMConstString.h; sourceTree = "<group>"; };
+		D311670D1ACB92250039DB28 /* AMConstString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMConstString.m; sourceTree = "<group>"; };
+		D37A47C21ACB974700E1491F /* AMMenuGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMMenuGenerator.h; sourceTree = "<group>"; };
+		D37A47C31ACB974700E1491F /* AMMenuGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMMenuGenerator.m; sourceTree = "<group>"; };
+		D3BC0ABF1ACB8EAF0028F983 /* RegexData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RegexData.plist; sourceTree = "<group>"; };
+		D3BC0AC11ACB8EBD0028F983 /* MenuItemData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MenuItemData.plist; sourceTree = "<group>"; };
 		D3E07CB41AC951E1007F8F79 /* AMSettingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSettingWindowController.h; sourceTree = "<group>"; };
 		D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSettingWindowController.m; sourceTree = "<group>"; };
 		D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AMSettingWindowController.xib; sourceTree = "<group>"; };
@@ -97,6 +107,12 @@
 				D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */,
 				FDBF0BB418FD7D9600C5759C /* NSStringAdditions.h */,
 				FDBF0BB518FD7D9600C5759C /* NSStringAdditions.m */,
+				D311670C1ACB92250039DB28 /* AMConstString.h */,
+				D311670D1ACB92250039DB28 /* AMConstString.m */,
+				D37A47C21ACB974700E1491F /* AMMenuGenerator.h */,
+				D37A47C31ACB974700E1491F /* AMMenuGenerator.m */,
+				D3BC0ABF1ACB8EAF0028F983 /* RegexData.plist */,
+				D3BC0AC11ACB8EBD0028F983 /* MenuItemData.plist */,
 				FDBF0BA018FD6C5C00C5759C /* Supporting Files */,
 			);
 			path = AMMethod2Implement;
@@ -166,7 +182,9 @@
 			files = (
 				D3E07CBA1AC95228007F8F79 /* AMSettingWindowController.xib in Resources */,
 				FDBF0BBA18FD845800C5759C /* README.md in Resources */,
+				D3BC0AC21ACB8EBD0028F983 /* MenuItemData.plist in Resources */,
 				FDBF0BB918FD845800C5759C /* LICENSE in Resources */,
+				D3BC0AC01ACB8EAF0028F983 /* RegexData.plist in Resources */,
 				FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,10 +196,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D311670E1ACB92250039DB28 /* AMConstString.m in Sources */,
 				FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */,
 				FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */,
 				FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */,
-				D3E07CB71AC951E1007F8F79 /* AMSettingWindowController.m in Sources */,
+				D37A47C41ACB974700E1491F /* AMMenuGenerator.m in Sources */,
+				D301792F1ACBA5150053550D /* AMSettingWindowController.m in Sources */,
 				FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
