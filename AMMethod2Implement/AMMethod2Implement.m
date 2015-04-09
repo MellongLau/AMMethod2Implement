@@ -80,18 +80,18 @@ static NSArray *implementContent;
     declareMap =    @[
                       @"^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)$",
                       @"^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$",
-                      @"\\@selector\\((\\w+\\:)\\)"
+                      @"\\@selector\\((\\w+\\:?)\\)"
                       ];
     implementMap = @[
                      @"",
                      @"^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\"(.*)\";$",
-                     @"^([-+]\\s*\\(void\\)\\s*%@\\s*\\(\\w+\\s*\\**\\)\\s*\\w+)"
+                     @[@"^(-\\s*\\(void\\)\\s*%@)", @"^(-\\s*\\(void\\)\\s*%@\\s*\\(\\w+\\s*\\**\\)\\s*\\w+)"]
                      ];
     
     implementContent = @[
                      @"\n\n%@ {\n\t\n}",
                      @"\n\nNSString * const %@ = @\"<#value#>\";",
-                     @"\n\n- (void)%@(id)sender {\n\t\n}"
+                     @[@"\n\n- (void)%@ {\n\t\n}", @"\n\n- (void)%@(id)sender {\n\t\n}"]
                      ];
 }
 
@@ -227,8 +227,9 @@ static NSArray *implementContent;
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [selectString substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
                 if (result.length > 0) {
-                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex], result];
-                    NSString *stringResult = [NSString stringWithFormat:implementContent[matchIndex], result];
+                    NSUInteger index = [result rangeOfString:@":"].location == NSNotFound ? 0 : 1;
+                    NSString *matchRegex = [NSString stringWithFormat:implementMap[matchIndex][index], result];
+                    NSString *stringResult = [NSString stringWithFormat:implementContent[matchIndex][index], result];
                     BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
                     if (!isImplementFound) {
                         NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
