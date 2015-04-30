@@ -3,12 +3,12 @@ AMMethod2Implement
 
 A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.
 
-##Features(v2.3):
+##Features(v2.4):
 1. Support `extern NSString * const` implement.
 2. Support multiline method and const string implement.
 3. Support categories.
-4. Support declare method(New).
-5. Support `@select(method:)` implement(New).
+4. Support declare method.
+5. Support `@select(method)` and `@select(method:)` implement(New).
 
 
 ## Usage
@@ -55,6 +55,8 @@ In any case, relaunch Xcode to load it.
 ## Support
 
 Developed and tested against Xcode 6+.
+
+Or download and execute this [script](https://github.com/cielpy/RPAXU) to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins.  
 
 ## Todo
 

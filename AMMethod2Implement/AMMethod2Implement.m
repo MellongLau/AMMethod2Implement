@@ -221,8 +221,9 @@ static AMMethod2Implement *sharedPlugin;
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [selectString substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
                 if (result.length > 0) {
-                    NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex], result];
-                    NSString *stringResult = [NSString stringWithFormat:_implementContent[matchIndex], result];
+                    NSUInteger index = [result rangeOfString:@":"].location == NSNotFound ? 0 : 1;
+                    NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex][index], result];
+                    NSString *stringResult = [NSString stringWithFormat:_implementContent[matchIndex][index], result];
                     BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
                     if (!isImplementFound) {
                         NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];

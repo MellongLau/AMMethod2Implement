@@ -6,19 +6,25 @@
 	<array>
 		<string>^([-+]\s*\(\w+\s*\**\)\s*.+)$</string>
 		<string>^extern\s+NSString\s*\*\s*const\s+(\w+)$</string>
-		<string>\@selector\((\w+\:)\)</string>
+		<string>\@selector\((\w+\:?)\)</string>
 	</array>
 	<key>implementMap</key>
 	<array>
 		<string></string>
 		<string>^NSString\s*\*\s*const\s+%@\s*\=\s*\@\&quot;(.*)\&quot;;$</string>
-		<string>^([-+]\s*\(void\)\s*%@\s*\(\w+\s*\**\)\s*\w+)</string>
+		<array>
+			<string>^(-\s*\(void\)\s*%@)</string>
+			<string>^(-\s*\(void\)\s*%@\s*\(\w+\s*\**\)\s*\w+)</string>
+		</array>
 	</array>
 	<key>implementContent</key>
 	<array>
 		<string>\n\n%@ {\n\t\n}</string>
 		<string>\n\nNSString * const %@ = @\&quot;&lt;#value#&gt;\&quot;;</string>
-		<string>\n\n- (void)%@(id)sender {\n\t\n}</string>
+		<array>
+			<string>\n\n- (void)%@ {\n\t\n}</string>
+			<string>\n\n- (void)%@(id)sender {\n\t\n}</string>
+		</array>
 	</array>
 </dict>
 </plist>
