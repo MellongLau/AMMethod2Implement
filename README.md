@@ -14,7 +14,7 @@ A simple Xcode plugin to generate implement code for the selected method, select
 
 ## Usage
 
-Use key `Ctrl+A` or go to menu `Edit` > `Implement Method`.
+Use key `Ctrl+A` or go to menu `Edit` > `AMMethod2Implement` > `Implement Method`.
 
 1. Multiline method and const string implement.
 ![usageScreenshot.gif](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/usageScreenshot.gif)
