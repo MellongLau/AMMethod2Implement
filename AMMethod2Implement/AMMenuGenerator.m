@@ -14,7 +14,6 @@
 {
     NSString *dataPath = [bundle pathForResource:@"MenuItemData" ofType:@"plist"];
     NSDictionary *menuData = [NSDictionary dictionaryWithContentsOfFile:dataPath];
-//    NSLog(@"#Menu data:%@", menuData);
     NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:menuData[kMenuRootMenuTitle]];
     
     if (menuItem) {
@@ -53,7 +52,8 @@
             if (maskArray.count == 1) {
                 subMenuItem.keyEquivalentModifierMask = [AMMenuGenerator getKeyEquivalentModifierMaskWithKey:maskArray[0]];
             }else if(maskArray.count == 2) {
-                subMenuItem.keyEquivalentModifierMask = [AMMenuGenerator getKeyEquivalentModifierMaskWithKey:maskArray[0]] | [AMMenuGenerator getKeyEquivalentModifierMaskWithKey:maskArray[1]];
+                subMenuItem.keyEquivalentModifierMask = [AMMenuGenerator getKeyEquivalentModifierMaskWithKey:maskArray[0]] |
+                [AMMenuGenerator getKeyEquivalentModifierMaskWithKey:maskArray[1]];
             }
             subMenuItem.target = target;
             [submenu addItem:subMenuItem];
