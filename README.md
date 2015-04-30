@@ -3,13 +3,14 @@ AMMethod2Implement
 
 A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.
 
-##Features(v2.4):
+##Features(v3.0):
 1. Support `extern NSString * const` implement.
 2. Support multiline method and const string implement.
 3. Support categories.
 4. Support declare method.
-5. Support `@select(method)` and `@select(method:)` implement(New).
-
+5. Support `@select(method)` and `@select(method:)` implement.
+6. Support selector with none parameter(New).
+7. Support changing the keyboard shortcut(New).
 
 ## Usage
 
@@ -60,7 +61,7 @@ Or download and execute this [script](https://github.com/cielpy/RPAXU) to add yo
 
 ## Todo
 
-1. Support selector with none parameter or multi parameters.
+1. Support selector multi parameters.
 2. Support swift.
 
 

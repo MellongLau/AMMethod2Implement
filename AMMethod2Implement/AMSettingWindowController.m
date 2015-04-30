@@ -23,8 +23,6 @@
     [super windowDidLoad];
     NSDictionary *userMenu = [[NSUserDefaults standardUserDefaults] objectForKey:kMenuActionTitle];
     if (userMenu != nil) {
-//        keyEquivalent = userMenu[kMenuKeyEquivalent];
-//        maskArray = userMenu[kMenuShortcut];
         
         NSArray *items = userMenu[kMenuShortcut];
         if (items.count == 1) {
@@ -36,12 +34,9 @@
         self.controlTextField.stringValue = userMenu[kMenuKeyEquivalent];
         
     }
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
 - (IBAction)onApplyButtonClicked:(NSButton *)sender {
-//    NSString *dataPath = [self.bundle pathForResource:@"MenuItemData" ofType:@"plist"];
-//    NSMutableDictionary *menuData = [NSMutableDictionary dictionaryWithContentsOfFile:dataPath];
     
     NSMutableArray *maskKeys = [NSMutableArray array];
     if (self.shortcutMask1.selectedItem.title != nil && self.shortcutMask1.selectedItem.title.length > 0) {
@@ -50,7 +45,6 @@
     if (self.shortcutMask2.selectedItem.title != nil && self.shortcutMask2.selectedItem.title.length > 0) {
         [maskKeys addObject:self.shortcutMask2.selectedItem.title];
     }
-    NSLog(@"#%@,%@,%@", self.shortcutMask1.selectedItem.title, self.shortcutMask2.selectedItem.title, self.controlTextField.stringValue);
     
     NSDictionary *menuItem = @{kMenuTitle:kMenuActionTitle, kMenuShortcut:maskKeys, kMenuKeyEquivalent:self.controlTextField.stringValue};
     [[NSUserDefaults standardUserDefaults] setObject:menuItem forKey:kMenuActionTitle];
