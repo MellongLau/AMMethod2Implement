@@ -11,5 +11,6 @@
 @interface AMMenuGenerator : NSObject
 
 + (void)generateMenuItems:(NSBundle *)bundle version:(NSString *)version target:(id)target;
++ (NSUInteger)getKeyEquivalentModifierMaskWithKey:(NSString *)key;
 
 @end

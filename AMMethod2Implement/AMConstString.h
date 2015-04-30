@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AMConstString : NSObject
 
 extern NSString * const kDeclareMap;
 extern NSString * const kImplementMap;
@@ -17,7 +16,7 @@ extern NSString * const kImplementContent;
 extern NSString * const kSelectTextType;
 extern NSString * const kSelectTextFirstSelectMethod;
 
-extern NSString * const kMenuRootMenutitle;
+extern NSString * const kMenuRootMenuTitle;
 extern NSString * const kMenuPluginTitle;
 extern NSString * const kMenuSubMenuItems;
 extern NSString * const kMenuTitle;
@@ -26,4 +25,4 @@ extern NSString * const kMenuShortcut;
 extern NSString * const kMenuKeyMask;
 extern NSString * const kMenuKeyEquivalent;
 
-@end
+extern NSString * const kMenuActionTitle;

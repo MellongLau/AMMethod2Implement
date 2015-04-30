@@ -240,12 +240,7 @@ static AMMethod2Implement *sharedPlugin;
 // For menu item:
 - (void)doImplementMethodAction
 {
-//    if (self.settingWindowController == nil) {
-//        self.settingWindowController = [[AMSettingWindowController alloc] initWithWindowNibName:@"AMSettingWindowController"];
-//        
-//    }
-//    
-//    [self.settingWindowController showWindow:self.settingWindowController];
+
     NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
     
     if ([AMIDEHelper isHeaderFile]) {
@@ -255,6 +250,17 @@ static AMMethod2Implement *sharedPlugin;
         [self declareMethod:selectString];
         
     }
+}
+
+- (void)showSettingWindow
+{
+    if (self.settingWindowController == nil) {
+        self.settingWindowController = [[AMSettingWindowController alloc] initWithWindowNibName:@"AMSettingWindowController"];
+        self.settingWindowController.bundle = self.bundle;
+
+    }
+
+    [self.settingWindowController showWindow:self.settingWindowController];
 }
 
 - (void)dealloc

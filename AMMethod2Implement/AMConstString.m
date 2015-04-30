@@ -8,8 +8,6 @@
 
 #import "AMConstString.h"
 
-@implementation AMConstString
-
 
 NSString * const kDeclareMap = @"declareMap";
 NSString * const kImplementMap = @"implementMap";
@@ -18,7 +16,7 @@ NSString * const kImplementContent = @"implementContent";
 NSString * const kSelectTextType = @"type";
 NSString * const kSelectTextFirstSelectMethod = @"firstSelectMethod";
 
-NSString * const kMenuRootMenutitle = @"rootMenutitle";
+NSString * const kMenuRootMenuTitle = @"rootMenuTitle";
 NSString * const kMenuPluginTitle = @"pluginTitle";
 NSString * const kMenuSubMenuItems = @"subMenuItems";
 NSString * const kMenuTitle = @"title";
@@ -27,4 +25,4 @@ NSString * const kMenuShortcut = @"shortcut";
 NSString * const kMenuKeyMask = @"keyMask";
 NSString * const kMenuKeyEquivalent = @"keyEquivalent";
 
-@end
+NSString * const kMenuActionTitle = @"Implement Mehod";

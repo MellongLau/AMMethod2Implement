@@ -4,15 +4,15 @@
 <dict>
 	<key>declareMap</key>
 	<array>
-		<string>^([-+]\\s*\\(\\w+\\s*\\**\\)\\s*.+)$</string>
-		<string>^extern\\s+NSString\\s*\\*\\s*const\\s+(\\w+)$</string>
-		<string>\\@selector\\((\\w+\\:)\\)</string>
+		<string>^([-+]\s*\(\w+\s*\**\)\s*.+)$</string>
+		<string>^extern\s+NSString\s*\*\s*const\s+(\w+)$</string>
+		<string>\@selector\((\w+\:)\)</string>
 	</array>
 	<key>implementMap</key>
 	<array>
 		<string></string>
-		<string>^NSString\\s*\\*\\s*const\\s+%@\\s*\\=\\s*\\@\&quot;(.*)\&quot;;$</string>
-		<string>^([-+]\\s*\\(void\\)\\s*%@\\s*\\(\\w+\\s*\\**\\)\\s*\\w+)</string>
+		<string>^NSString\s*\*\s*const\s+%@\s*\=\s*\@\&quot;(.*)\&quot;;$</string>
+		<string>^([-+]\s*\(void\)\s*%@\s*\(\w+\s*\**\)\s*\w+)</string>
 	</array>
 	<key>implementContent</key>
 	<array>

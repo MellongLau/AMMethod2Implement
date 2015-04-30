@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>rootMenutitle</key>
+	<key>rootMenuTitle</key>
 	<string>Edit</string>
 	<key>pluginTitle</key>
 	<string>Implement Mehod</string>
@@ -12,7 +12,7 @@
 			<key>title</key>
 			<string>Implement Mehod</string>
 			<key>selector</key>
-			<string>doImplementMehod</string>
+			<string>doImplementMethodAction</string>
 			<key>shortcut</key>
 			<dict>
 				<key>keyMask</key>

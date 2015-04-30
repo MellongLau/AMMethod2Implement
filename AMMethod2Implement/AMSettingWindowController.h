@@ -10,4 +10,6 @@
 
 @interface AMSettingWindowController : NSWindowController
 
+@property (nonatomic, weak) NSBundle *bundle;
+
 @end

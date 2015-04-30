@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		D301792F1ACBA5150053550D /* AMSettingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E07CB51AC951E1007F8F79 /* AMSettingWindowController.m */; };
-		D311670E1ACB92250039DB28 /* AMConstString.m in Sources */ = {isa = PBXBuildFile; fileRef = D311670D1ACB92250039DB28 /* AMConstString.m */; };
-		D37A47C41ACB974700E1491F /* AMMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D37A47C31ACB974700E1491F /* AMMenuGenerator.m */; };
 		D3BC0AC01ACB8EAF0028F983 /* RegexData.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3BC0ABF1ACB8EAF0028F983 /* RegexData.plist */; };
 		D3BC0AC21ACB8EBD0028F983 /* MenuItemData.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3BC0AC11ACB8EBD0028F983 /* MenuItemData.plist */; };
 		D3E07CBA1AC95228007F8F79 /* AMSettingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E07CB91AC95228007F8F79 /* AMSettingWindowController.xib */; };
+		D3FC8EB61AF1FDF00024BCF1 /* AMConstString.m in Sources */ = {isa = PBXBuildFile; fileRef = D311670D1ACB92250039DB28 /* AMConstString.m */; };
+		D3FC8EB71AF1FE0C0024BCF1 /* AMMenuGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D37A47C31ACB974700E1491F /* AMMenuGenerator.m */; };
 		FDBF0B9C18FD6C5C00C5759C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9B18FD6C5C00C5759C /* AppKit.framework */; };
 		FDBF0B9E18FD6C5C00C5759C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBF0B9D18FD6C5C00C5759C /* Foundation.framework */; };
 		FDBF0BA418FD6C5C00C5759C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDBF0BA218FD6C5C00C5759C /* InfoPlist.strings */; };
@@ -196,12 +196,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D311670E1ACB92250039DB28 /* AMConstString.m in Sources */,
+				D3FC8EB61AF1FDF00024BCF1 /* AMConstString.m in Sources */,
 				FDBF0BA718FD6C5C00C5759C /* AMMethod2Implement.m in Sources */,
 				FDBF0BB618FD7D9600C5759C /* NSStringAdditions.m in Sources */,
 				FDBF0BB018FD70A300C5759C /* AMXcodeHelper.m in Sources */,
-				D37A47C41ACB974700E1491F /* AMMenuGenerator.m in Sources */,
 				D301792F1ACBA5150053550D /* AMSettingWindowController.m in Sources */,
+				D3FC8EB71AF1FE0C0024BCF1 /* AMMenuGenerator.m in Sources */,
 				FDBF0BB318FD71DB00C5759C /* AMIDEHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
