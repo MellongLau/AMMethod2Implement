@@ -56,6 +56,8 @@ In any case, relaunch Xcode to load it.
 
 Developed and tested against Xcode 6+.
 
+Or download and execute this script to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins.  [refreshPluginsAfterXcodeUpgrading](https://github.com/cielpy/RPAXU)
+
 ## Todo
 
 1. Support selector with none parameter or multi parameters.
