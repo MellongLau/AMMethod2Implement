@@ -8,7 +8,7 @@ A simple Xcode plugin to generate implement code for the selected method, select
 2. Support multiline method and const string implement.
 3. Support categories.
 4. Support declare method.
-5. Support `@select(method)` and `@select(method:)` implement.
+5. Support `@select(method:)` implement.
 6. Support selector with none parameter(New).
 7. Support changing the keyboard shortcut(New).
 
