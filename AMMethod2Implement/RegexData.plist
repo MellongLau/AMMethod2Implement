@@ -20,7 +20,7 @@
 	<key>implementContent</key>
 	<array>
 		<string>\n\n%@ {\n\t\n}</string>
-		<string>\n\nNSString * const %@ = @\&quot;&lt;#value#&gt;\&quot;;</string>
+		<string>\n\nNSString * const %@ = @&quot;&lt;#value#&gt;&quot;;</string>
 		<array>
 			<string>\n\n- (void)%@ {\n\t\n}</string>
 			<string>\n\n- (void)%@(id)sender {\n\t\n}</string>

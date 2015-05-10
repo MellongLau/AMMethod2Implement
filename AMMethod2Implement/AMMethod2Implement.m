@@ -86,9 +86,25 @@ static AMMethod2Implement *sharedPlugin;
     NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[self.bundle pathForResource:@"RegexData" ofType:@"plist"]];
     _declareMap        = data[kDeclareMap];
     _implementMap      = data[kImplementMap];
-    _implementContent  = data[kImplementContent];
+    NSArray *implementContents  = data[kImplementContent];
+    _implementContent = [self escapeCharacterWithArray:implementContents];
 }
 
+- (NSArray *)escapeCharacterWithArray:(NSArray *)array
+{
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:array.count];
+    for (id item in array) {
+        if ([item isKindOfClass:[NSArray class]]) {
+            [mutableArray addObject:[self escapeCharacterWithArray:item]];
+        }else if ([item isKindOfClass:[NSString class]]){
+            NSString *stringItem = (NSString *)item;
+            stringItem = [stringItem stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+            stringItem = [stringItem stringByReplacingOccurrencesOfString:@"\\t" withString:@"\t"];
+            [mutableArray addObject:stringItem];
+        }
+    }
+    return mutableArray;
+}
 
 - (void)implementMethod:selectString
 {
