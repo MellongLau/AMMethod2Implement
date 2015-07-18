@@ -64,6 +64,10 @@ Or download and execute this [script](https://github.com/cielpy/RPAXU) to add yo
 1. Support selector multi parameters.
 2. Support swift.
 
+## More
+Learn more? Follow my `WeChat` public account `mellong`:
+
+![WeChat QRcode](http://www.devlong.com/blogImages/qrcode_for_mellong.jpg)
 
 ## License
 
