@@ -14,7 +14,8 @@
 typedef enum {
     AMImplementTypeMethod = 0,
     AMImplementTypeConstString,
-    AMImplementTypeSelector
+    AMImplementTypeSelector,
+    AMImplementTypeInvocation
 }AMImplementType;
 
 static AMMethod2Implement *sharedPlugin;
@@ -241,6 +242,29 @@ static AMMethod2Implement *sharedPlugin;
                     NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex][index], result];
                     NSString *stringResult = [NSString stringWithFormat:_implementContent[matchIndex][index], result];
                     BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
+                    if (!isImplementFound) {
+                        NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
+                        NSRange contentRange      = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:fileText fileType:AMIDEFileTypeMFile];
+                        NSRange range             = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+                        [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
+                    }
+                    [AMIDEHelper selectTextWithRegex:matchRegex highlightText:@""];
+                }
+            }
+        }else if (matchIndex == AMImplementTypeInvocation) {
+            NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
+            NSString *fileText                = textView.textStorage.string;
+            NSRegularExpression *regex = [NSRegularExpression
+                                          regularExpressionWithPattern:_declareMap[matchIndex]
+                                          options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
+                                          error:NULL];
+            NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:selectString options:0 range:NSMakeRange(0, selectString.length)];
+            if (textCheckingResult.range.location != NSNotFound) {
+                NSString *result = [selectString substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
+                if (result.length > 0) {
+                    NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex], result];
+                    BOOL isImplementFound = [fileText matches:matchRegex range:NSMakeRange(0, fileText.length)];
+                    NSString *stringResult = [NSString stringWithFormat:_implementContent[matchIndex], result];
                     if (!isImplementFound) {
                         NSArray *currentClassName = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
                         NSRange contentRange      = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:fileText fileType:AMIDEFileTypeMFile];
