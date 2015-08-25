@@ -11,13 +11,6 @@
 #import "AMSettingWindowController.h"
 #import "AMMenuGenerator.h"
 
-typedef enum {
-    AMImplementTypeMethod = 0,
-    AMImplementTypeConstString,
-    AMImplementTypeSelector,
-    AMImplementTypeInvocation
-}AMImplementType;
-
 static AMMethod2Implement *sharedPlugin;
 
 @interface AMMethod2Implement()

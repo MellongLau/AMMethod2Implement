@@ -172,16 +172,16 @@
 + (NSRange)getClassImplementContentRangeWithClassNameItemList:(NSArray *)classNameItemList fileText:(NSString *)fileText fileType:(AMIDEFileType)fileType
 {
     if (classNameItemList.count > 1) {
-        NSString *normalImplementationFormatString = @"@implementation\\s+%@.+?(?=\\s{0,1000}@end)";
+        NSString *normalImplementationFormatString = @"@implementation\\s+%@.+?(?=\\s{0,3000}@end)";
         if (fileType == AMIDEFileTypeHFile) {
-            normalImplementationFormatString = @"@interface\\s+%@.+?(?=\\s{0,1000}@end)";
+            normalImplementationFormatString = @"@interface\\s+%@.+?(?=\\s{0,3000}@end)";
         }
 
         NSString *regexPattern = [NSString stringWithFormat:normalImplementationFormatString, classNameItemList[1]];
         if (classNameItemList.count == 3) {
-            NSString *categoryImplementationFormatString = @"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)";
+            NSString *categoryImplementationFormatString = @"@implementation\\s+%@\\s+\\(%@\\).+?(?=\\s{0,3000}@end)";
             if (fileType == AMIDEFileTypeHFile) {
-                categoryImplementationFormatString = @"@interface\\s+%@\\s+\\(%@\\).+?(?=\\s{0,1000}@end)";
+                categoryImplementationFormatString = @"@interface\\s+%@\\s+\\(%@\\).+?(?=\\s{0,3000}@end)";
             }
             regexPattern = [NSString stringWithFormat:categoryImplementationFormatString, classNameItemList[1], classNameItemList[2]];
         }

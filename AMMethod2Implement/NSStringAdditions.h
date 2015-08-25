@@ -14,6 +14,14 @@
 
 - (BOOL)matches:(NSString *)regex;
 - (BOOL)matches:(NSString *)regex range:(NSRange)searchRange;
+
+/**
+ *  Search with regex and return first match range result.
+ *
+ *  @param regex regex string.
+ *
+ *  @return first match range result
+ */
 - (NSRange)firstMatch:(NSString *)regex;
 - (NSInteger)getMatchIndexWithRegexList:(NSArray *)regexList;
 
