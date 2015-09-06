@@ -66,7 +66,7 @@
 {
     NSDictionary *keyMaskMap = @{@"ctrl":@(NSControlKeyMask),
                                  @"shift":@(NSShiftKeyMask),
-                                 @"command":@(NSCommandKeyMask),
+                                 @"cmd":@(NSCommandKeyMask),
                                  @"alt":@(NSAlternateKeyMask)};
     return [keyMaskMap[key] integerValue];
 }

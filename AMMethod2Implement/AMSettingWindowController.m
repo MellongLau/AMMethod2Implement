@@ -29,6 +29,7 @@
             [self.shortcutMask1 selectItemWithTitle:items[0]];
         }
         if (items.count == 2) {
+            [self.shortcutMask1 selectItemWithTitle:items[0]];
             [self.shortcutMask2 selectItemWithTitle:items[1]];
         }
         self.controlTextField.stringValue = userMenu[kMenuKeyEquivalent];
