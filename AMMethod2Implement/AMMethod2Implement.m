@@ -100,7 +100,7 @@ static AMMethod2Implement *sharedPlugin;
     return mutableArray;
 }
 
-- (void)implementMethod:selectString
+- (void)implementMethod:(NSString *)selectString
 {
     NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeHFile];
     NSArray *methodList                = [selectString componentsSeparatedByString:@";"];
@@ -116,12 +116,19 @@ static AMMethod2Implement *sharedPlugin;
         
 
         NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:_declareMap];
+        
         if (matchIndex != -1)
         {
+            NSString *mfilePath = [AMIDEHelper getMFilePathOfCurrentEditFile];
             if (hasOpenMFile == NO) {
                 
-                [AMIDEHelper openFile:[AMIDEHelper getMFilePathOfCurrentEditFile]];
+                [AMIDEHelper openFile:mfilePath];
                 hasOpenMFile = YES;
+            }
+            
+            
+            while (![[AMIDEHelper getCurrentEditFilePath] isEqualToString:mfilePath]) {
+                [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
             }
 
             NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
@@ -196,7 +203,14 @@ static AMMethod2Implement *sharedPlugin;
         
         if (matchIndex == AMImplementTypeMethod) {
             NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeMFile];
-            [AMIDEHelper openFile:[AMIDEHelper getHFilePathOfCurrentEditFile]];
+            NSString *hfilePath = [AMIDEHelper getHFilePathOfCurrentEditFile];
+            [AMIDEHelper openFile:hfilePath];
+            
+            while (![[AMIDEHelper getCurrentEditFilePath] isEqualToString:hfilePath]) {
+                [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+            }
+
+            
             NSTextView *textView               = [AMXcodeHelper currentSourceCodeTextView];
             NSString *hFileText                = textView.textStorage.string;
             NSRange trimStringRange = [selectString rangeOfString:@"{"];
