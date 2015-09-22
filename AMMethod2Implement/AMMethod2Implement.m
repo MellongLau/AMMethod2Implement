@@ -289,7 +289,11 @@ static AMMethod2Implement *sharedPlugin;
 - (void)doImplementMethodAction
 {
 
-    NSString *selectString             = [AMIDEHelper getCurrentSelectMethod];
+    BOOL isProcessFileType = [[AMIDEHelper getCurrentEditFilePath].pathExtension matches:@"[hm]|mm"];
+    if (!isProcessFileType) {
+        return;
+    }
+    NSString *selectString = [AMIDEHelper getCurrentSelectMethod];
     
     if ([AMIDEHelper isHeaderFile]) {
         
