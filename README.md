@@ -1,9 +1,11 @@
 AMMethod2Implement
 ==================
 
-A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.
+A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.  
+[可以自动的将.h或者.m .mm里边需要写入的方法自动填充进来。可以选择要导入的方法，然后按 Ctrl+A  或者 Edit > AMMethod2Implement > Implement Method.就会自动填充方法.也可以自行设置快捷键。]
 
-##Features(v3.2):
+##Features(v3.3):
+
 1. Support `extern NSString * const` implement.
 2. Support multiline method and const string implement.
 3. Support categories.
@@ -11,7 +13,9 @@ A simple Xcode plugin to generate implement code for the selected method, select
 5. Support `@select(method:)` implement.
 6. Support selector with none parameter.
 7. Support changing the keyboard shortcut.
-7. Support parameterless method invocation(New).
+8. Support parameterless method invocation(New).
+
+[目前版本支持h文件声明方法自动生成实现，m或者mm文件已写好的方法生成方法声明到h文件， `extern NSString * const`， `@select(method:)` 和 `[self methodName]` 实现代码生成]
 
 ## Usage
 
