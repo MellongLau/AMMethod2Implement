@@ -1,6 +1,12 @@
 AMMethod2Implement
 ==================
 
+<p align="center">
+    <img src="https://img.shields.io/badge/downloads-2,000+-ffc003.svg?style=flat" alt="Downloads"/>
+    <img src="https://img.shields.io/badge/platform-Xcode%206%2B-blue.svg?style=flat" alt="Platform: Xcode 6+"/>
+    <img src="http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat" alt="License: MIT" />
+</p>
+
 A simple Xcode plugin to generate implement code for the selected method, selector and const string, currently, only support objective-c.  
 
 *可以自动的将.h或者.m .mm里边需要写入的方法自动填充进来。可以选择要导入的方法，然后按 Ctrl+A  或者 Edit > AMMethod2Implement > Implement Method.就会自动填充方法.也可以自行设置快捷键。*
