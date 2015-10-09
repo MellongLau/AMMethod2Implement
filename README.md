@@ -1,7 +1,7 @@
 AMMethod2Implement
 ==================
 
-<p align="center">
+<p align="left">
 
     <a href="https://travis-ci.org/MellongLau/AMMethod2Implement"><img src="https://travis-ci.org/MellongLau/AMMethod2Implement.svg" alt="Build Status" /></a>
     <img src="https://img.shields.io/badge/platform-Xcode%206%2B-blue.svg?style=flat" alt="Platform: Xcode 6+"/>
