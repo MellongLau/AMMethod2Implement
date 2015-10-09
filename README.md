@@ -4,7 +4,6 @@ AMMethod2Implement
 <p align="center">
 
     <a href="https://travis-ci.org/MellongLau/AMMethod2Implement"><img src="https://travis-ci.org/MellongLau/AMMethod2Implement.svg" alt="Build Status" /></a>
-    <img src="https://img.shields.io/badge/downloads-2,000+-ffc003.svg?style=flat" alt="Downloads"/>
     <img src="https://img.shields.io/badge/platform-Xcode%206%2B-blue.svg?style=flat" alt="Platform: Xcode 6+"/>
     <img src="http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat" alt="License: MIT" />
     
