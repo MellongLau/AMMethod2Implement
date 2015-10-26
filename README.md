@@ -71,11 +71,14 @@ In any case, relaunch Xcode to load it.
 
 Developed and tested against Xcode 6+.
 
-Or run shell script:
+For Xcode7.1, you may need to run shell script:
 ```shell
 find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info.plist -maxdepth 3 | xargs -I{} defaults write {} DVTPlugInCompatibilityUUIDs -array-add defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
 
 sudo xcode-select --reset
+
+defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-7.1
+
 ```
 
 Or download and execute this [script](https://github.com/cielpy/RPAXU) to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins.  
