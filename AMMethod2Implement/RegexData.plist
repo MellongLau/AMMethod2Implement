@@ -19,6 +19,7 @@
 			<string>^(-\s*\(void\)\s*%@\s*\(\w+\s*\**\)\s*\w+)</string>
 		</array>
 		<string>- \(\w+\s*\*?\)(%@)\s*\{?</string>
+		<string>-\s*\(\w+\s*\*\)\s*%@\s*\{?</string>
 	</array>
 	<key>implementContent</key>
 	<array>
@@ -29,7 +30,7 @@
 			<string>\n\n- (void)%@(id)sender {\n\t\n}</string>
 		</array>
 		<string>\n\n- (void)%@ {\n\t\n}</string>
-		<string>\n\n-(%@ *)%@\n{\n\tif (!_%@){\n\n\t}\n\treturn _%@;\n}</string>
+		<string>\n\n- (%@ *)%@\n{\n\tif (!_%@){\n\n\t}\n\treturn _%@;\n}</string>
 	</array>
 </dict>
 </plist>
