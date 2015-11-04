@@ -8,6 +8,7 @@
 		<string>^extern\s+NSString\s*\*\s*const\s+(\w+)$</string>
 		<string>\@selector\((\w+\:?)\)</string>
 		<string>\[self\s+(\w+)\];</string>
+		<string>\@property\s*\(nonatomic,\s*strong\)\s*(\w+)\s*\*\s*(\w+)</string>
 	</array>
 	<key>implementMap</key>
 	<array>
@@ -28,6 +29,7 @@
 			<string>\n\n- (void)%@(id)sender {\n\t\n}</string>
 		</array>
 		<string>\n\n- (void)%@ {\n\t\n}</string>
+		<string>\n\n-(%@ *)%@\n{\n\tif (!_%@){\n\n\t}\n\treturn _%@;\n}</string>
 	</array>
 </dict>
 </plist>

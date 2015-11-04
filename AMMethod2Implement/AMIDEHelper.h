@@ -17,7 +17,8 @@ typedef enum {
     AMImplementTypeMethod = 0,
     AMImplementTypeConstString,
     AMImplementTypeSelector,
-    AMImplementTypeInvocation
+    AMImplementTypeInvocation,
+    AMImplementTypeGetter
 }AMImplementType;
 
 @interface AMIDEHelper : NSObject
