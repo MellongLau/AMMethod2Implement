@@ -8,7 +8,7 @@
 		<string>^extern\s+NSString\s*\*\s*const\s+(\w+)$</string>
 		<string>\@selector\((\w+\:?)\)</string>
 		<string>\[self\s+(\w+)\];</string>
-		<string>\@property\s*\(nonatomic,\s*strong\)\s*(\w+)\s*\*\s*(\w+)</string>
+		<string>\@property\s*\(nonatomic,\s*(\w+)\)\s*(\w+)\s*\*\s*(\w+)</string>
 	</array>
 	<key>implementMap</key>
 	<array>
