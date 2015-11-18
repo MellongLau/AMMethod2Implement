@@ -144,6 +144,8 @@ static AMMethod2Implement *sharedPlugin;
             if (textCheckingResult.range.location != NSNotFound) {
                 NSString *result = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
                 
+                
+                
                 BOOL isImplementFound = NO;
                 if (matchIndex == AMImplementTypeMethod) {
                     
@@ -281,6 +283,8 @@ static AMMethod2Implement *sharedPlugin;
                     [AMIDEHelper selectTextWithRegex:matchRegex highlightText:@""];
                 }
             }
+        }else if (matchIndex == AMImplementTypeGetter){
+            [self generateGetterMethod:selectString];
         }
     }
 }
@@ -301,6 +305,55 @@ static AMMethod2Implement *sharedPlugin;
     }else {
         [self declareMethod:selectString];
         
+    }
+}
+
+/**
+ *  create get method for selected properties
+ */
+- (void)generateGetterMethod:(NSString*)selectString
+{
+    NSArray *currentClassName          = [AMIDEHelper getCurrentClassNameByCurrentSelectedRangeWithFileType:AMIDEFileTypeHFile];
+    NSTextView *textView = [AMXcodeHelper currentSourceCodeTextView];
+    NSString *mFileText  = textView.textStorage.string;
+    NSRange contentRange = [AMIDEHelper getClassImplementContentRangeWithClassNameItemList:currentClassName fileText:mFileText fileType:AMIDEFileTypeMFile];
+    
+    NSArray *methodList                = [selectString componentsSeparatedByString:@";"];
+    NSMutableString *stringResult      = [NSMutableString string];
+    for (NSString *methodItem in methodList) {
+        if (methodItem.length == 0) {
+            continue;
+        }
+        NSInteger matchIndex = [methodItem getMatchIndexWithRegexList:_declareMap];
+        if (matchIndex == -1) {
+            continue;
+        }
+        
+        NSRegularExpression *regex = [NSRegularExpression
+                                      regularExpressionWithPattern:_declareMap[matchIndex]
+                                      options:NSRegularExpressionAnchorsMatchLines|NSRegularExpressionDotMatchesLineSeparators
+                                      error:NULL];
+        NSTextCheckingResult *textCheckingResult = [regex firstMatchInString:methodItem options:0 range:NSMakeRange(0, methodItem.length)];
+        if (textCheckingResult.range.location != NSNotFound) {
+            
+            NSString *variable = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-1]];
+            NSString *variableType = [methodItem substringWithRange:[textCheckingResult rangeAtIndex:textCheckingResult.numberOfRanges-2]];
+            
+            NSString *matchRegex = [NSString stringWithFormat:_implementMap[matchIndex], variable];
+            BOOL isImplementFound = [mFileText matches:matchRegex range:contentRange];
+            
+            if (isImplementFound) {
+                continue;
+            }
+            
+            [stringResult appendFormat:_implementContent[matchIndex], variableType, variable,variable,variable];
+        }
+    }
+    
+    if (stringResult.length > 0) {
+        NSRange range        = [AMIDEHelper getInsertRangeWithClassImplementContentRange:contentRange];
+        [textView insertText:[stringResult stringByAppendingString:@"\n"] replacementRange:range];
+        [AMIDEHelper selectText:stringResult];
     }
 }
 
