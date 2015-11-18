@@ -13,7 +13,7 @@ A simple Xcode plugin to generate implement code for the selected method, select
 
 *可以自动的将.h或者.m .mm里边需要写入的方法自动填充进来。可以选择要导入的方法，然后按 Ctrl+A  或者 Edit > AMMethod2Implement > Implement Method.就会自动填充方法.也可以自行设置快捷键。*
 
-##Features(v3.3):
+##Features(v3.4):
 
 1. Support `extern NSString * const` implement.
 2. Support multiline method and const string implement.
@@ -23,6 +23,7 @@ A simple Xcode plugin to generate implement code for the selected method, select
 6. Support selector with none parameter.
 7. Support changing the keyboard shortcut.
 8. Support parameterless method invocation(New).
+9. Support get method for property if get method not exist(New).
 
 *目前版本支持h文件声明方法自动生成实现，m或者mm文件已写好的方法生成方法声明到h文件， `extern NSString * const`， `@select(method:)` 和 `[self methodName]` 实现代码生成*
 
@@ -82,6 +83,9 @@ defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-7.1
 ```
 
 Or download and execute this [script](https://github.com/cielpy/RPAXU) to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins.  
+
+## Thanks
+- @HelloZJW [Added get method for property if get method not exist]
 
 ## Todo
 
