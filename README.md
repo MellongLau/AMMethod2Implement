@@ -13,6 +13,8 @@ A simple Xcode plugin to generate implement code for the selected method, select
 
 *可以自动的将.h或者.m .mm里边需要写入的方法自动填充进来。可以选择要导入的方法，然后按 Ctrl+A  或者 Edit > AMMethod2Implement > Implement Method.就会自动填充方法.也可以自行设置快捷键。*
 
+**如果觉得这款插件不错的话请点击右上角的star和推荐给你的朋友，如果想即时了解到我的最新消息，请拉到底部扫描二维码关注我的公众号**
+
 ##Features(v3.4):
 
 1. Support `extern NSString * const` implement.
