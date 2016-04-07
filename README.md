@@ -68,20 +68,13 @@ In any case, relaunch Xcode to load it.
 
 Developed and tested against Xcode 6+.
 
-For Xcode7.1, you may need to run shell script:
-```shell
-find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info.plist -maxdepth 3 | xargs -I{} defaults write {} DVTPlugInCompatibilityUUIDs -array-add defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+After upgrade your Xcode, you may need to run below shell script to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins:
 
-sudo xcode-select --reset
+> curl https://raw.githubusercontent.com/cielpy/RPAXU/master/refreshPluginsAfterXcodeUpgrading.sh | sh
 
-defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-7.1
-
-```
-
-Or download and execute this [script](https://github.com/cielpy/RPAXU) to add your current Xcode DVTPlugInCompatibilityUUID to all the Xcode plugins.  
 
 ## Thanks
-- @HelloZJW [Added get method for property if get method not exist]
+- (@HelloZJW)[https://github.com/HelloZJW] [Added get method for property if get method not exist]
 
 ## Todo
 
