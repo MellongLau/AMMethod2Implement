@@ -1,3 +1,5 @@
+![AMMethod2Implement Banner](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/banner.png)
+
 AMMethod2Implement
 ==================
 
