@@ -1,5 +1,10 @@
 ![AMMethod2Implement Banner](https://raw.github.com/MellongLau/AMMethod2Implement/master/Screenshots/banner.png)
 
+Donate
+===========
+
+* [Donate via paypal](https://paypal.me/mellonglau)
+
 AMMethod2Implement
 ==================
 
